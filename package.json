@@ -1,7 +1,7 @@
 {
   "name": "Thomas_Ng",
   "version": "0.1.0",
-  "homepage": "https://hkdjyu.github.io/website",
+  "homepage": "https://hkdjyu.github.io/",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.12.4",

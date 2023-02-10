@@ -1,1 +1,0 @@
-# Thomas NG personal website

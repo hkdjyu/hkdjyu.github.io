@@ -10,7 +10,7 @@ import ProjectDisplay from './Pages/ProjectDisplay';
 function App() {
   return (
     <div className="App">
-      <HashRouter>
+      <Router>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -20,7 +20,7 @@ function App() {
           <Route path="/website" element={ <Navigate to="/" /> } />
         </Routes>
         <Footer />
-      </HashRouter>
+      </Router>
     </div>
     );
 }

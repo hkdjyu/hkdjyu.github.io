@@ -1,5 +1,5 @@
 import './App.css';
-import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
+import {BrowserRouter as Router, HashRouter, Routes, Route, Navigate} from 'react-router-dom';
 import Home from "./Pages/Home";
 import Projects from "./Pages/Projects";
 import Experience from "./Pages/Experience";
@@ -10,7 +10,7 @@ import ProjectDisplay from './Pages/ProjectDisplay';
 function App() {
   return (
     <div className="App">
-      <Router>
+      <HashRouter>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -20,7 +20,7 @@ function App() {
           <Route path="/website" element={ <Navigate to="/" /> } />
         </Routes>
         <Footer />
-      </Router>
+      </HashRouter>
     </div>
     );
 }

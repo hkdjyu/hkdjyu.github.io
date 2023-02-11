@@ -8,13 +8,26 @@ function ProjectDisplay() {
 
     const { id } = useParams();
     const project = ProjectList[id];
+    const projectLink = ProjectList[id].link;
+    var linkTest = "";
+    if(projectLink != null) {
+        linkTest = "Project Details: "
+    }
 
     return (
         <div className="project">
             <h1> {project.name} </h1>
             <img src={project.image} />
-            <p> <b>Skills: </b> {project.skill} </p>
-            <GitHubIcon />
+            <div className="description">
+                <p> 
+                    {project.description} 
+                </p>
+            </div>
+            <div className="details">
+                <h2>{linkTest}</h2> 
+                <a href={projectLink}>{projectLink}</a>
+            </div>
+            
         </div>
     );
 }

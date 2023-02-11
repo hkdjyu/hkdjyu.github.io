@@ -1,7 +1,11 @@
 .navbar {
     width: 100%;
     height: 100px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
     background: #21325e;
+    float: left;
   }
   
   .links {

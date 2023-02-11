@@ -16,6 +16,16 @@
     background-color: #21325e;
     color: #f0f0f0;
   }
+
+  .propic img {
+    width: max(15vw, 150px) ;
+    height: max(15vw, 150px) ;
+
+    display: flex;
+    border-radius: 50%;
+    border: 5px solid #e9d35b;
+    margin: 10px;
+  }
   
   .about h2 {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -51,9 +61,33 @@
     list-style: none;
     width: 60%;
   }
+
+  .hobbies {
+    font-size: 35px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hobbies h1 {
+    color: #3e497a;
+  }
+  
+  .hobbies .list {
+    list-style: none;
+    width: 60%;
+  }
   
   .list span {
     font-size: 20px;
+  }
+
+  hr.roundedDivLine {
+    border-top: 3px solid #3e497a;
+    border-radius: 5px;
+    width: 60%;
   }
   
   @media only screen and (max-width: 600px) {
@@ -67,14 +101,29 @@
       width: 80%;
     }
   
-    .skills {
-      text-align: center;
-    }
     .list {
       padding: 0;
     }
-  
+
+    .skills {
+      text-align: center;
+    }
+    
+    .skills h1 {
+      font-size: 45px;
+    }
+
     .skills h2 {
+      font-size: 30px;
+    }
+
+    .hobbies {
+      text-align: center;
+    }
+    .hobbies h1 {
+      font-size: 45px;
+    }
+    .hobbies h2 {
       font-size: 30px;
     }
   }

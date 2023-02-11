@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { ProjectList } from "../Helpers/ProjectList";
+import { ProjectList } from "../UserData/ProjectList";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import "../Styles/ProjectDisplay.css";
 
@@ -9,14 +9,11 @@ function ProjectDisplay() {
     const { id } = useParams();
     const project = ProjectList[id];
     const projectLink = ProjectList[id].link;
-    var linkTest = "";
-    if(projectLink != null) {
-        linkTest = "Project Details: "
-    }
 
     return (
         <div className="project">
             <h1> {project.name} </h1>
+            <p> {project.date} </p>
             <img src={project.image} />
             <div className="description">
                 <p> 
@@ -24,8 +21,23 @@ function ProjectDisplay() {
                 </p>
             </div>
             <div className="details">
-                <h2>{linkTest}</h2> 
-                <a href={projectLink}>{projectLink}</a>
+                {project.details != null && 
+                    <h2>Project Details</h2> 
+                }
+                {project.link != null && 
+                    <p>
+                        Link: <a href={projectLink} target="_blank" rel="noopener noreferrer">{projectLink}</a>
+                    </p>
+                }
+                <p>{project.details}</p>
+            </div>
+            <div className="photos">
+                {ProjectList[id].photos != null && 
+                    <h2>Snapshots</h2> 
+                }
+                {ProjectList[id].photos != null && ProjectList[id].photos.map((photo) => {
+                    return ( <img src={photo}/> );
+                })}
             </div>
             
         </div>

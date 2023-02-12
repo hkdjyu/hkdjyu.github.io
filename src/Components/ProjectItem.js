@@ -5,11 +5,19 @@ function ProjectItem({image, name, id, date}) {
 
     const navigate = useNavigate();
 
+    const [thisClassName, setThisClassName] = React.useState("projectItem");
+
     return (
-        <div className="projectItem" onClick={() => {navigate("/project/" + id)}}>
+        <div className={thisClassName}
+            onClick={() => {navigate("/project/" + id)}}
+            onMouseEnter={() => {setThisClassName("projectItemHover")}}
+            onMouseLeave={() => {setThisClassName("projectItem")}}
+        >
             <div style={{backgroundImage: `url(${image})`}} className="bgImage" />
-            <h2>{name}</h2>
-            <p>{date}</p>
+            <div className="info">
+                <h2>{name}</h2>
+                <p>{date}</p>
+            </div>
         </div>
     );
 }

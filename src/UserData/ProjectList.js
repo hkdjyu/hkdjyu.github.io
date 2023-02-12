@@ -18,7 +18,7 @@ export const ProjectList = [
         hasDetails: false,
     },
     {
-        name: "Unreal Game 2",
+        name: "Unreal Game 2 ",
         date: "2021",
         image: Proj2Img,
         description: "a unreal game that is playable",

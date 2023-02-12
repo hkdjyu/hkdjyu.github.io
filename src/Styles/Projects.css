@@ -42,28 +42,57 @@
     width: 300px;
     height: 300px;
     margin: 40px;
-    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
     background-color: #d8cd80;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
   }
-  .projectItem:hover {
-    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.5);
-    transition: 0.3s ease-in;
-    cursor: pointer;
-  }
-  
   .projectItem .bgImage {
+    border-bottom: transparent 1px solid;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
-    width: 100%;
+    width: 300px;
     height: 200px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-  }
+  } 
   
-  .projectItem h1 {
+  .projectItem .info h2 {
     font-size: 25px;
+  }
+  .projectItem .info p {
+    font-size: 18px;
+  }
+
+  .projectItemHover {
+    border-radius: 15px;
+    width: 330px;
+    height: 330px;
+    margin: 25px;
+    background-color: #d8cd80;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: 0.2s ease-in;
+    cursor: pointer ;
+  }
+  .projectItemHover .bgImage {
+    border-bottom: transparent 1px solid;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    width: 330px;
+    height: 220px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: 0.2s ease-in;
+  } 
+  .projectItemHover .info h2 {
+    font-size: 27.5px;
+    transition: 0.2s ease-in;
+  }
+  .projectItemHover .info p {
+    font-size: 19.8px;
+    transition: 0.2s ease-in;
   }
   
   @media only screen and (max-width: 1300px) {

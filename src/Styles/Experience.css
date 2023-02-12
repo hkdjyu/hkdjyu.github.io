@@ -19,34 +19,34 @@
 
 .vertical-timeline-element--organization h3 {
     font-size: 24px;
-    color: #3e497a;
+    color: #1c2135;
     margin: 0;
 }
 
 .vertical-timeline-element--organization a:link {
     font-size: 24px;
-    color: #3e497a;
+    color: #1c2135;
     margin: 0;
     text-decoration: none;
 }
 
 .vertical-timeline-element--organization a:visited {
     font-size: 24px;
-    color: #3e497a;
+    color: #1c2135;
     margin: 0;
     text-decoration: none;
 }
 
 .vertical-timeline-element--organization a:hover {
     font-size: 24px;
-    color: #3e497a;
+    color: #1c2135;
     margin: 0;
     text-decoration: underline;
 }
 
 .vertical-timeline-element--organization a:active {
     font-size: 24px;
-    color: #3e497a;
+    color: #1c2135;
     margin: 0;
     text-decoration: none;
 }
@@ -62,7 +62,7 @@
 
 .vertical-timeline-element--position h4 {
     font-size: 16px;
-    color: #3e497a;
+    color: #1c2135;
     margin: 10px;
     font-style: italic;
 }

@@ -1,11 +1,31 @@
+:root{
+  --body_background: #1c2135;
+  --body_color: #e7e9ee;
+  --navbar_background: #101320;
+  --navbar_color: #e7e9ee;
+}
+
+[data-theme = "light"]{
+  --body_background: #e7e9ee;
+  --body_color: #1c2135;
+  --navbar_background: whitesmoke;
+  --navbar_color: #1c2135;
+}
+
+* {
+  transition: all 0.3s ease-in-out;
+}
+
 .App {
   width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: white;
+  background-color: var(--body_background);
 }
+
+
 
 body {
   margin: 0;

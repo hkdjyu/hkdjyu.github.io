@@ -10,9 +10,11 @@ function Experience() {
     <VerticalTimelineElement 
       className={exp.nature}
       date={exp.date}
-      contentStyle={{ background: '#eee', color: '#3e497a' }}
-      contentArrowStyle={{ borderRight: '7px solid  #3e497a' }}
-      iconStyle={{ background: '#3e497a', color: '#fff' }}
+      contentStyle={{ 
+        background: '#d8cd80', color: '#1c2135'
+      }}
+      contentArrowStyle={{ borderRight: '10px solid  #d8cd80' }}
+      iconStyle={{ background: '#1c2135', color: '#eff' }}
       icon={exp.icon}
     >
       <div className="vertical-timeline-element--organization">
@@ -28,13 +30,12 @@ function Experience() {
           return ( <p> {description} </p> );
         })}
       </div>
-      
     </VerticalTimelineElement>
   ));
 
   return (
       <div>
-        <VerticalTimeline lineColor="#3e497a">
+        <VerticalTimeline lineColor="#8794c0">
           {experienceList}
         </VerticalTimeline>
       </div>

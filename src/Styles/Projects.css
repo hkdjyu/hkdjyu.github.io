@@ -6,9 +6,16 @@
     align-items: center;
     flex-direction: column;
   }
+
+  .projectsHeader h1 {
+    font-size: 80px;
+    color: #d8cd80;
+    text-shadow: 2px 2px 2px #101320;
+  }
+
   .projects .projectTitle {
     text-align: center;
-    color: #3e497a;
+    color: #1c2135;
     font-size: 60px;
     font-weight: bolder;
   }
@@ -20,6 +27,13 @@
     grid-template-columns: 1fr 1fr 1fr;
     place-items: center;
   }
+
+  .projectList h2 {
+    color: #1c2135;
+  }
+  .projectList p {
+    color: #1c2135;
+  }
   
   /* MENU ITEM STYLING */
   
@@ -29,6 +43,7 @@
     height: 300px;
     margin: 40px;
     box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+    background-color: #d8cd80;
     text-align: center;
   }
   .projectItem:hover {

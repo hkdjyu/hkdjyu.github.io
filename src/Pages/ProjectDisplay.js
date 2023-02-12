@@ -12,9 +12,11 @@ function ProjectDisplay() {
 
     return (
         <div className="project">
-            <h1> {project.name} </h1>
-            <p> {project.date} </p>
-            <img src={project.image} />
+            <div className="heading">
+                <h1> {project.name} </h1>
+                <p> {project.date} </p>
+                <img src={project.image} />
+            </div>
             <div className="description">
                 <p> 
                     {project.description} 

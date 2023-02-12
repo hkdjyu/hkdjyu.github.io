@@ -1,3 +1,28 @@
+.darkModeSwitch {
+    margin-top: 0px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.darkModeIcon {
+    transform: scale(0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--body_background);
+    transition: 0.2s ease-in-out;
+}
+
+.lightModeIcon {
+    transform: scale(0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color);
+    transition: 0.2s ease-in-out;
+}
+
+/*
 .dark_mode {
     margin-top: -20px;
     margin-left: 10px;
@@ -65,3 +90,5 @@
 .dark_mode_input:checked + .dark_mode_label svg.moon {
     fill: #8794c0;
 }
+
+*/

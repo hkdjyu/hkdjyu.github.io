@@ -9,7 +9,7 @@
   .project .heading h1 {
     margin-top: 100px;
     color: #d8cd80;
-    text-shadow: 2px 2px 2px #101320;
+    text-shadow: 1px 1px 1px var(--body_color);
     font-size: 40px;
     display: flex;
     justify-content: center;
@@ -19,7 +19,7 @@
   .project .heading h2 {
     margin-top: px;
     color: #d8cd80;
-    text-shadow: 1px 1px 1px #101320;
+    text-shadow: 0.5px 0.5px 0.5px var(--body_color);
     font-size: 30px;
     display: flex;
     justify-content: center;
@@ -34,7 +34,7 @@
   .project .heading p {
     font-size: 24px;
     color: #d8cd80;
-    text-shadow: 1px 1px 1px #101320;
+    text-shadow: 1px 1px 1px var(--body_color);
     display: flex;
     justify-content: center;
     align-items: center;

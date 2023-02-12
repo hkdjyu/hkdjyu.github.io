@@ -14,7 +14,7 @@
     height: 100px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     color: var(--navbar_color);
   }
 
@@ -49,15 +49,17 @@
     height: 100px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     color: var(--navbar_color);
   }
   .dropdownButton {
     width: 50px;
     height: 50px;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
+    margin-left: 10px;
+    margin-right: 10px;
   }
   .dropdownButton button {
     background-color: transparent;
@@ -85,6 +87,21 @@
   }
 
   @media only screen and (max-width: 750px) {
+
+    .left{
+      width: 49%;
+    }
+    .middle {
+      display: none;
+    }
+    .right{
+      width: 49%;
+    }
+
+    .dropdownButton {
+      display: flex;
+    }
+
     .link {
       display: none;
     }

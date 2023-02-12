@@ -18,7 +18,6 @@ function Navbar() {
   return (
     <div className="navbar"id={expandNavbar ? "open" : "close"}>
       <div className="left">
-        <DarkMode />
       </div>
       <div className="middle">
         <div className="link">
@@ -33,6 +32,7 @@ function Navbar() {
           
       </div>
       <div className="right">
+        <DarkMode />
         <div className="dropdownButton">
           <button 
               onClick={() =>{

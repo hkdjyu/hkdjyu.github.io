@@ -10,7 +10,7 @@
   .projectsHeader h1 {
     font-size: 80px;
     color: #d8cd80;
-    text-shadow: 2px 2px 2px #101320;
+    text-shadow: 2px 2px 2px var(--body_color);
   }
 
   .projects .projectTitle {

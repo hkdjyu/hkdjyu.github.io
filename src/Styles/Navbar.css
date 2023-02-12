@@ -89,13 +89,13 @@
   @media only screen and (max-width: 750px) {
 
     .left{
-      width: 49%;
+      width: 50%;
     }
     .middle {
-      display: none;
+      width: 0%;
     }
     .right{
-      width: 49%;
+      width: 48%;
     }
 
     .dropdownButton {
@@ -108,6 +108,16 @@
 
     #open .link{
       display: flex;
+    }
+    #open .left{
+      width: 20%;
+    }
+    #open .middle{
+      width: 60%;
+      display: flex;
+    }
+    #open .right{
+      width: 18%;
     }
   }
 

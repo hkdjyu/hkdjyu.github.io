@@ -1,10 +1,11 @@
 # A bash script to push to GitHub and deploy to GitHub Pages
 
 # Color Setting
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
+RED='\033[1;31m'
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[1;34m'
+NC='\033[0m' # No Color
 
 # Ask user to type commit message in yellow color
 echo -e "${YELLOW}Type your commit message?${NC}"
@@ -25,29 +26,31 @@ if [[ $dir == *"hkdjyu.github.io" ]];
     echo -e "${RED}Your current directory does not have \"hkdjyu.github.io\"${NC}"
     # Ask user to type Yes or No. If Yes, continue the bash program. If No, exit the bash program.
     while true; do
-      read -p "${YELLOW}Do you want to continue? (Y/N)${NC}" yn
+      echo -e "${YELLOW}Do you want to continue? (Y/N)${NC}"
+      read yn
       case $yn in
-        [Yy]* ) echo "${GREEN}Continue${NC}"; break;;
-        [Nn]* ) echo "${RED}Exit${NC}"; exit;;
-        * ) echo "${YELLOW}Please answer yes or no.${NC}";;
+        [Yy]* ) echo -e "${GREEN}Continue${NC}"; break;;
+        [Nn]* ) echo -e "${RED}Exit${NC}"; exit;;
+        * ) echo -e "${YELLOW}Please answer yes or no.${NC}";;
       esac
     done
 fi
 
-echo "${BLUE}Start Pushing to GitHub...${NC}"
+echo -e "${BLUE}Start Pushing to GitHub...${NC}"
 git add .
 git commit -m "$commitMessage"
 git push origin main
-echo "${BLUE}Pushed to GitHub...${NC}"
+echo -e "${BLUE}Pushed to GitHub...${NC}"
 
 # Ask if user want to deploy to GitHub Pages
 while true; do
-  read -p "${YELLOW}Do you want to deploy to GitHub Pages? (Y/N)${NC}" yn
+  echo -e "${YELLOW}Do you want to deploy to GitHub Pages? (Y/N)${NC}"
+  read yn
   case $yn in
-    [Yy]* ) echo "${BLUE}Deploying to GitHub Pages${NC}"; break;;
-    [Nn]* ) echo "${RED}Exit${NC}"; exit;;
-    * ) echo "${YELLOW}Please answer yes or no.${NC}";;
+    [Yy]* ) echo -e "${BLUE}Deploying to GitHub Pages${NC}"; break;;
+    [Nn]* ) echo -e "${RED}Exit${NC}"; exit;;
+    * ) echo -e "${YELLOW}Please answer yes or no.${NC}";;
   esac
 done
 npm run deploy
-echo "${BLUE}Deployed to GitHub Pages...${NC}"
+echo -e "${BLUE}Deployed to GitHub Pages...${NC}"

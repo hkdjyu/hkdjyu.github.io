@@ -10,6 +10,7 @@ function Experience() {
     <VerticalTimelineElement 
       className={exp.nature}
       date={exp.date}
+      dateClassName={"vertical-timeline-element--date"}
       contentStyle={{ 
         background: '#d8cd80', color: '#1c2135'
       }}

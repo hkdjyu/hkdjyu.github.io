@@ -25,22 +25,23 @@ const DarkMode = () => {
         <div className='dark_mode'>
             <Switch
                 className='darkModeSwitch'
-                onChange={toggleTheme}  
                 checked={currentMode === "dark"}
-                offColor="#1c2135"
-                offHandleColor="#d8cd80"
+                onChange={toggleTheme} 
+                offColor="#1c2135" 
                 onColor="#e7e9ee"
+                offHandleColor="#d8cd80"
                 onHandleColor="#d8cd80"
+                handleDiameter={30}
                 checkedIcon={false}
                 uncheckedIcon={false}
-                height={20}
-                width={48}
-                checkedHandleIcon={
-                    <div className="darkModeIcon"><DarkIcon /></div>
-                }
                 uncheckedHandleIcon={
                     <div className="lightModeIcon"><LightIcon /></div>
                 }
+                checkedHandleIcon={
+                    <div className="darkModeIcon"><DarkIcon /></div>
+                }
+                height={20}
+                width={50}
             />
         </div>
     );

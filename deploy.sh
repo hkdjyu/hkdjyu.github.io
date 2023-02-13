@@ -31,6 +31,14 @@ git commit -m "$commitMessage"
 git push origin main
 echo "Pushed to GitHub..."
 
-echo "Start Deploying to GitHub Pages..."
+# Ask if user want to deploy to GitHub Pages
+while true; do
+  read -p "Do you want to deploy to GitHub Pages? (Y/N)" yn
+  case $yn in
+    [Yy]* ) echo "Deploying to GitHub Pages"; break;;
+    [Nn]* ) echo "Exit"; exit;;
+    * ) echo "Please answer yes or no.";;
+  esac
+done
 npm run deploy
 echo "Deployed to GitHub Pages..."

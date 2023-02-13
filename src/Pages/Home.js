@@ -7,10 +7,16 @@ import GmailIcon from "@material-ui/icons/Mail";
 import ItchIcon from "@material-ui/icons/SportsEsports"
 import propic from "../Assets/propic.jpg";
 import "../Styles/Home.css";
+import {motion} from "framer-motion";
 
 function Home() {
   return (
-    <div className="home">
+    <motion.div 
+      className="home"
+      initial={{width: 0}}
+      animate={{width: "100%"}}
+      exit={{x: window.innerWidth, trasition: {duration: 0.01}}}
+    >
       <div className="about">
         <div className="propic"><
           img src={propic} alt="Profile Picture" />
@@ -45,7 +51,7 @@ function Home() {
           <li className="item">
             <h2> Media Editing </h2>
             <span>
-              Photoshop, Illustrator, Lightroom, Aseprite, Audacity
+              Photoshop, Illustrator, Lightroom, Aseprite, Audacity, Davinci Resolve
             </span>
           </li>
         </ol>
@@ -74,7 +80,7 @@ function Home() {
           </li>
         </ol>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

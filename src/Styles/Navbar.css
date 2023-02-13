@@ -36,6 +36,14 @@
     align-items: center;
     justify-content: center;
   }
+  .link button{
+    background-color: transparent;
+    border: none;
+    color: var(--navbar_color);
+    cursor: pointer;
+    font-size: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
   .navbar a {
     color: var(--navbar_color);
     text-decoration: none;

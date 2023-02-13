@@ -4,10 +4,11 @@ import 'react-vertical-timeline-component/style.min.css';
 import {ExperienceList} from "../UserData/ExperienceList";
 import "../Styles/Experience.css";
 import { Description } from '@material-ui/icons';
+import { motion } from 'framer-motion';
 
 function Experience() {
   let experienceList = ExperienceList.map((exp) => (
-    <VerticalTimelineElement 
+      <VerticalTimelineElement 
       className={exp.nature}
       date={exp.date}
       dateClassName={"vertical-timeline-element--date"}
@@ -32,6 +33,7 @@ function Experience() {
         })}
       </div>
     </VerticalTimelineElement>
+    
   ));
 
   return (

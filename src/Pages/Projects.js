@@ -2,10 +2,16 @@ import React from 'react';
 import ProjectItem from '../Components/ProjectItem';
 import '../Styles/Projects.css';
 import { ProjectList } from '../UserData/ProjectList'; 
+import { motion } from 'framer-motion';
 
 function Projects() {
   return (
-    <div className="projects">
+    <motion.div 
+      className="projects"
+      initial={{width: 0}}
+      animate={{width: window.innerWidth}}
+      exit={{x: window.innerWidth, trasition: {duration: 0.1}}}
+    >
       <div className="projectsHeader">
         <h1>Projects</h1>
       </div>
@@ -20,7 +26,7 @@ function Projects() {
                       /> );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 }
 

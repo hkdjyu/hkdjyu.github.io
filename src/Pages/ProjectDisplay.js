@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { ProjectList } from "../UserData/ProjectList";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import "../Styles/ProjectDisplay.css";
+import { motion } from "framer-motion";
+
 
 function ProjectDisplay() {
 
@@ -11,7 +13,12 @@ function ProjectDisplay() {
     const projectLink = ProjectList[id].link;
 
     return (
-        <div className="project">
+        <motion.div 
+            className="project"
+            initial={{width: 0}}
+            animate={{width: "100%"}}
+            exit={{x: window.innerWidth, trasition: {duration: 0.5}}}
+        >
             <div className="heading">
                 <h1> {project.name} </h1>
                 <p> {project.date} </p>
@@ -42,7 +49,7 @@ function ProjectDisplay() {
                 })}
             </div>
             
-        </div>
+        </motion.div>
     );
 }
 

@@ -1,7 +1,8 @@
+import { Description } from "@material-ui/icons";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function ProjectItem({image, name, id, date}) {
+function ProjectItem({image, name, id, date, description}) {
 
     const navigate = useNavigate();
 
@@ -13,7 +14,9 @@ function ProjectItem({image, name, id, date}) {
             onMouseEnter={() => {setThisClassName("projectItemHover")}}
             onMouseLeave={() => {setThisClassName("projectItem")}}
         >
-            <div style={{backgroundImage: `url(${image})`}} className="bgImage" />
+            <div style={{backgroundImage: `url(${image})`}} className="bgImage">
+                <span>{description}</span>
+            </div>
             <div className="info">
                 <h2>{name}</h2>
                 <p>{date}</p>

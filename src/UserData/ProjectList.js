@@ -6,7 +6,7 @@ export const ProjectList = [
         name: "Unity Game",
         date: "2020",
         image: Proj1Img,
-        description: "a unity game",
+        description: "unity game",
         hasDetails: true,
         link: "https://www.google.com"
     },

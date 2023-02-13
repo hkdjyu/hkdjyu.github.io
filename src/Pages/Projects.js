@@ -11,7 +11,13 @@ function Projects() {
       </div>
       <div className="projectList">
         {ProjectList.map((project, index) => {
-          return ( <ProjectItem id = {index} name={project.name} image={project.image} date={project.date}/> );
+          return ( <ProjectItem 
+                      id = {index} 
+                      name={project.name} 
+                      image={project.image} 
+                      date={project.date} 
+                      description={project.description}
+                      /> );
         })}
       </div>
     </div>

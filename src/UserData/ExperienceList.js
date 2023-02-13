@@ -1,6 +1,8 @@
 import SchoolIcon from '@material-ui/icons/School';
 import GamesIcon from '@material-ui/icons/Games';
 import ComputerIcon from '@material-ui/icons/Computer';
+import BookIcon from '@material-ui/icons/MenuBook';
+
 export const ExperienceList = [
     
     {
@@ -12,6 +14,16 @@ export const ExperienceList = [
         position: "Game Developer Intern",
         descriptions: ["- developed AR mobile game using Unity and Vuforia",
                        "- developed 3D escape game using Decentraland SDK",]
+    },
+    {
+        nature: "education",
+        icon: <BookIcon />,
+        orgName: "ME Education",
+        orgLink: "https://www.meeducationhk.com/",
+        date: "Apr 2022 - present",
+        position: "Part-time Tutor",
+        descriptions: ["- providing one-to-one tutoring for international school students",
+                       "- teaching IGCSE Computer Science (0478)",]
     },
     {   nature: "internship",
         icon: <ComputerIcon />,
@@ -30,8 +42,8 @@ export const ExperienceList = [
         orgLink: "https://www.cuhk.edu.hk/",
         date: "Sep 2020 - Jul 2024",
         position: "Bachelor of Science in Computer Science",
-        descriptions: ["- studying computer science",
-                       "- taking courses in computer science",]
+        descriptions: ["- major in computer science (Rich Media Stream)",
+                       "- minor in German",]
     },
         
 ]

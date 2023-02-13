@@ -1,5 +1,8 @@
 # A bash script to push to GitHub and deploy to GitHub Pages
 
+# REPONAME
+REPO_NAME="hkdjyu.github.io"
+
 # Color Setting
 RED='\033[1;31m'
 GREEN='\033[1;32m'
@@ -16,14 +19,14 @@ do
   echo -e "${YELLOW}Commit message cannot be empty. Please type again. (press ctrl + c to exit))${NC}"
   read commitMessage
 done
-echo -e "${BLUE}Your commit message is: $commitMessage${NC}"
+echo -e "${GREEN}Your commit message is: ${BLUE}$commitMessage${NC}"
 
 dir=$PWD
-if [[ $dir == *"hkdjyu.github.io" ]]; 
+if [[ $dir == *"$REPO_NAME" ]]; 
   then 
-    echo -e "${YELLOW}Your current directory: $dir${NC}"
+    echo -e "${YELLOW}Your current directory: ${BLUE}$dir${NC}"
   else 
-    echo -e "${RED}Your current directory does not have \"hkdjyu.github.io\"${NC}"
+    echo -e "${RED}Your current directory does not have \"$REPO_NAME\"${NC}"
     # Ask user to type Yes or No. If Yes, continue the bash program. If No, exit the bash program.
     while true; do
       echo -e "${YELLOW}Do you want to continue? (Y/N)${NC}"
@@ -36,11 +39,11 @@ if [[ $dir == *"hkdjyu.github.io" ]];
     done
 fi
 
-echo -e "${BLUE}Start Pushing to GitHub...${NC}"
+echo -e "${GREEN}Start Pushing to GitHub...${NC}"
 git add .
 git commit -m "$commitMessage"
 git push origin main
-echo -e "${BLUE}Pushed to GitHub...${NC}"
+echo -e "${GREEN}Pushed to GitHub...${NC}"
 
 # Ask if user want to deploy to GitHub Pages
 while true; do
@@ -53,4 +56,4 @@ while true; do
   esac
 done
 npm run deploy
-echo -e "${BLUE}Deployed to GitHub Pages...${NC}"
+echo -e "${GREEN}Deployed to GitHub Pages...${NC}"

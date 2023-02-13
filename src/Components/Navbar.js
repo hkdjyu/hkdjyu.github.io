@@ -3,6 +3,7 @@ import {Link, useLocation} from "react-router-dom";
 import "../Styles/Navbar.css";
 import MenuIcon from "@material-ui/icons/Reorder";
 import DarkMode from "./DarkMode";
+import GoBack from "./GoBack";
 
 
 function Navbar() {
@@ -18,6 +19,7 @@ function Navbar() {
   return (
     <div className="navbar"id={expandNavbar ? "open" : "close"}>
       <div className="left">
+        <GoBack />
       </div>
       <div className="middle">
         <div className="link">

@@ -7,6 +7,7 @@ import Experience from "./Pages/Experience";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import ProjectDisplay from './Pages/ProjectDisplay';
+import ScrollToTop from './Components/ScrollToTop';
 
 
 export const ThemeContext = React.createContext(null);
@@ -22,15 +23,16 @@ function App() {
     <ThemeContext.Provider value={{theme, toggleTheme}}>
     <div className="App" id={theme}>
       <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/Project/:id" element={<ProjectDisplay />} />
-          <Route path="/experience" element={<Experience />} />
-          <Route path="/website" element={ <Navigate to="/" /> } />
-        </Routes>
-        <Footer />
+        <ScrollToTop />
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/Project/:id" element={<ProjectDisplay />} />
+            <Route path="/experience" element={<Experience />} />
+            <Route path="/website" element={ <Navigate to="/" /> } />
+          </Routes>
+          <Footer />
       </Router>
     </div>
     </ThemeContext.Provider>

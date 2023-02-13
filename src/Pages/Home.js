@@ -15,7 +15,7 @@ function Home() {
       className="home"
       initial={{width: 0}}
       animate={{width: "100%"}}
-      exit={{x: window.innerWidth, trasition: {duration: 0.01}}}
+      exit={{x: window.innerWidth, trasition: {duration: 0.5}}}
     >
       <div className="about">
         <div className="propic"><

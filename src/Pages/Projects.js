@@ -10,7 +10,7 @@ function Projects() {
       className="projects"
       initial={{width: 0}}
       animate={{width: window.innerWidth}}
-      exit={{x: window.innerWidth, trasition: {duration: 0.1}}}
+      exit={{x: window.innerWidth, trasition: {duration: 0.5}}}
     >
       <div className="projectsHeader">
         <h1>Projects</h1>

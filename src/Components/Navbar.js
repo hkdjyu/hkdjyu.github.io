@@ -28,7 +28,7 @@ function Navbar() {
               behavior: "smooth",
           });
       }
-      , 750); 
+      , 1000); 
   };
 
   const goToHome = () => {
@@ -41,7 +41,7 @@ function Navbar() {
               behavior: "smooth",
           });
       }
-      , 500); 
+      , 1000); 
   };
 
 

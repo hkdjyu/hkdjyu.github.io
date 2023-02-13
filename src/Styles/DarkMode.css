@@ -14,7 +14,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--body_background);
+    color: #1c2135;
 
 }
 
@@ -23,7 +23,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color);
+    color: #1c2135;
 
 }
 

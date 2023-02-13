@@ -20,7 +20,7 @@ function Navbar() {
   const navigate = useNavigate();
   const goToContact = () => {
       navigate("/");
-      // wait 0.5s and scroll smoothly to bottom
+      // wait 1s and scroll smoothly to bottom
       setTimeout(() => {
           window.scrollTo({
               top: document.body.scrollHeight,
@@ -33,7 +33,7 @@ function Navbar() {
 
   const goToHome = () => {
       navigate("/");
-      // wait 0.5s and scroll smoothly to top
+      // wait 0.1s and scroll smoothly to top
       setTimeout(() => {
           window.scrollTo({
               top: 0,
@@ -41,7 +41,7 @@ function Navbar() {
               behavior: "smooth",
           });
       }
-      , 1000); 
+      , 100); 
   };
 
 

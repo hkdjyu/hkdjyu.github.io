@@ -9,6 +9,7 @@ import propic from "../Assets/propic.jpg";
 import "../Styles/Home.css";
 import {motion} from "framer-motion";
 import transitions from '@material-ui/core/styles/transitions';
+import SkillsBar from '../Components/SkillsBar';
 
 function Home() {
   return (
@@ -38,15 +39,13 @@ function Home() {
         <h1>Technical Skills</h1>
         <ol className="list">
           <li className="item">
+          <li className="item">
+            <h2> Programming Languages </h2>
+            <SkillsBar/>
+          </li>
             <h2> Game Development </h2>
             <span>
               Unity Engine, Unreal Engine, Decentraland SDK, OpenGL, GLFW, GLEW, GLM
-            </span>
-          </li>
-          <li className="item">
-            <h2> Programming Languages </h2>
-            <span>
-              C, C++, C#, Java, Python, TypeScript, JavaScript, HTML, CSS, GLSL, RISC-V Assembly
             </span>
           </li>
           <li className="item">

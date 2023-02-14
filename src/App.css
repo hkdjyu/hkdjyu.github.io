@@ -5,6 +5,12 @@
   --body_color_rgb: 231,233,238;
   --navbar_background: #101320;
   --navbar_color: #e7e9ee;
+
+  --darknavy_color: #101320;
+  --navy_color: #1c2135;
+  --purple_color: #8794c0;
+  --yellow_color: #d8cd80;
+  --white_color: #e7e9ee;
 }
 
 [data-theme = "light"]{

@@ -15,24 +15,35 @@ function Navbar() {
       setExpandNavbar(false)
   }, [location]);
 
-
+  console.log(location);
   // navigate to current home page using use Navigate
   const navigate = useNavigate();
   const goToContact = () => {
-      navigate("/");
-      // wait 1s and scroll smoothly to bottom and disable scrolling until reached bottom
-      setTimeout(() => {
-          window.scrollTo({
-              top: document.body.scrollHeight,
-              left: 0,
-              behavior: "smooth",
-          });
-          document.body.style.overflow = "hidden";
-          setTimeout(() => {
-              document.body.style.overflow = "auto";
-          }, 500);
+      if(location.pathname == "/"){
+        setExpandNavbar(false);
+        setTimeout(() => {
+          const element = document.getElementById("contact");
+            window.scrollTo({
+                top: element.offsetTop-50,
+                left: 0,
+                behavior: "smooth",
+            });
+        }
+        , 500);
       }
-      , 500); 
+      else{
+        navigate("/");
+        // wait 1s and scroll to contact
+        setTimeout(() => {
+          const element = document.getElementById("contact");
+            window.scrollTo({
+                top: element.offsetTop+200,
+                left: 0,
+                behavior: "smooth",
+            });
+        }
+        , 1000);
+      }
   };
 
   const goToHome = () => {

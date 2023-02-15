@@ -8,8 +8,8 @@ import ItchIcon from "@material-ui/icons/SportsEsports"
 import propic from "../Assets/propic.jpg";
 import "../Styles/Home.css";
 import {motion} from "framer-motion";
-import transitions from '@material-ui/core/styles/transitions';
 import SkillsBar from '../Components/SkillsBar';
+import Contact from '../Components/Contact';
 
 function Home() {
   return (
@@ -20,8 +20,8 @@ function Home() {
       exit={{opacity: 0}}
     >
       <div className="about">
-        <div className="propic"><
-          img src={propic} alt="Profile Picture" />
+        <div className="propic">
+          <img src={propic} alt="Profile Picture" />
         </div>
         <h2> Thomas NG </h2>
         <div className="prompt"> 
@@ -79,6 +79,10 @@ function Home() {
             </span>
           </li>
         </ol>
+      </div>
+      <hr class="roundedDivLine" />
+      <div className="contact">
+        <Contact/>
       </div>
     </motion.div>
   );

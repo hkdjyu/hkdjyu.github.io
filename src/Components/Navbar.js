@@ -20,15 +20,19 @@ function Navbar() {
   const navigate = useNavigate();
   const goToContact = () => {
       navigate("/");
-      // wait 1s and scroll smoothly to bottom
+      // wait 1s and scroll smoothly to bottom and disable scrolling until reached bottom
       setTimeout(() => {
           window.scrollTo({
               top: document.body.scrollHeight,
               left: 0,
               behavior: "smooth",
           });
+          document.body.style.overflow = "hidden";
+          setTimeout(() => {
+              document.body.style.overflow = "auto";
+          }, 500);
       }
-      , 1000); 
+      , 500); 
   };
 
   const goToHome = () => {

@@ -26,12 +26,18 @@
     color: #1c2135;
     margin: 0;
 }
+.vertical-timeline-element--organization h3:hover {
+    font-size: 24px;
+    color: var(--purple_color);
+    margin: 0;
+    transition: none;
+}
 
 .vertical-timeline-element--organization a:link {
     font-size: 24px;
     color: #1c2135;
     margin: 0;
-    text-decoration: none;
+    text-decoration: underline; 
 }
 
 .vertical-timeline-element--organization a:visited {
@@ -43,9 +49,10 @@
 
 .vertical-timeline-element--organization a:hover {
     font-size: 24px;
-    color: #1c2135;
+    color: var(--purple_color);
     margin: 0;
     text-decoration: underline;
+    transition: none;
 }
 
 .vertical-timeline-element--organization a:active {

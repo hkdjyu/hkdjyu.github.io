@@ -121,8 +121,8 @@ function SkillsBar () {
         }
         return (
             <motion.div className="row"
-                initial={showRest ? {height: 0, visibility:"none", opacity: 0} : {height: "80px", visibility:"visible", opacity: 1}}
-                animate={showRest ? {height: "80px", visibility:"visible", opacity: 1} : {height: 0, visibility:"none", opacity: 0}}
+                initial={showRest ? {height: "0px", visibility:"none", opacity: 0} : {height: "80px", visibility:"visible", opacity: 1}}
+                animate={showRest ? {height: "80px", visibility:"visible", opacity: 1} : {height: "0px", visibility:"none", opacity: 0}}
                 transition={showRest ? {duration: 0.5, delay: (index-5)*0.4} : {duration: 0.5, delay: (index-skillList.length)*-0.2}}
             >
                 <div className="skill-icon">
@@ -152,7 +152,7 @@ function SkillsBar () {
             <motion.div className="restSkills"
                 initial={showRest ? {height: "580px", } : {height: 0}}
                 animate={showRest ? {height: "580px", } : {height: 0}}
-                transition={showRest ? {duration: 0.5, delay: 0.5} : {duration: 0.5, delay: 0.5}}
+                transition={{duration: 1, delay: 0.5, transition: "ease-in"}}
             >
                 {RestSkills}
             </motion.div>

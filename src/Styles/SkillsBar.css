@@ -43,10 +43,11 @@
 
 
 .skill-icon{
-    width: 4.5%;
+    width: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-right: 12px;
 }
 .skill-box {
     width: 92%;
@@ -130,7 +131,8 @@
 
 @media screen and (max-width: 768px){
     .skill-icon{
-        width: 7.5%;
+        width: 40px;
+        margin-right: 12px;
     }
     .skill-box {
         width: 90%;

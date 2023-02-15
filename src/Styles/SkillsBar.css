@@ -14,12 +14,11 @@
 .restSkills{
     position: relative;
     height: auto;
-    transition: 2s ease-out;
 }
 
 .container{
-    width: 100%;
-    background: var(--body_background);
+    width: auto;
+    background: transparent;
     padding: 10px 20px;
     border-radius: 15px;
     transition: 0.3s ease-in-out;
@@ -36,6 +35,10 @@
 .restSkills .row{
     width: 95%;
     height: 1%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 20px;
 }
 
 

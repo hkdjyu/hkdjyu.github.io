@@ -4,6 +4,8 @@ import ShowMoreIcon from "@material-ui/icons/ArrowDropDownRounded"
 import ShowLessIcon from "@material-ui/icons/ArrowDropUpRounded"
 import "../Styles/SkillsBar.css";
 import {motion} from "framer-motion";
+import {View} from "react-native";
+
 
 const skillList = [
     {lang: "C#", percent: "95%" , icon: 
@@ -117,25 +119,28 @@ function SkillsBar () {
             animationDelay: `${index*0.1}s`
         }
         return (
-            <motion.div className="row"
-                initial={showRest ? {height: 0, visibility:"hidden", opacity: 0} : {height: "auto", visibility:"visible", opacity: 1}}
-                animate={showRest ? {height: "auto", visibility:"visible", opacity: 1} : {height: 0, visibility:"hidden", opacity: 0}}
-                transition={showRest ? {duration: 0.5, delay: (index-5)*0.4} : {duration: 0.5, delay: (index-skillList.length)*-0.2}}
-            >
-                <div className="skill-icon">
-                    {skill.icon}
-                </div>
-                <div key={index} className="skill-box">
-                    <span className="title">
-                        {skill.lang}
-                    </span>
-                    <div className="skill-bar">
-                        <span className={inView?"skillInView":"skill"} style={skillStyle}>
-                            <span className="tooltip">{skill.percent}</span>
-                        </span>
+            <View>
+                <motion.div className="row"
+                    initial={showRest ? {height: 0, visibility:"none", opacity: 0} : {height: "auto", visibility:"visible", opacity: 1}}
+                    animate={showRest ? {height: "auto", visibility:"visible", opacity: 1} : {height: 0, visibility:"none", opacity: 0}}
+                    transition={showRest ? {duration: 0.5, delay: (index-5)*0.4} : {duration: 0.5, delay: (index-skillList.length)*-0.2}}
+                >
+                    <div className="skill-icon">
+                        {skill.icon}
                     </div>
-                </div>
-            </motion.div>
+                    <div key={index} className="skill-box">
+                        <span className="title">
+                            {skill.lang}
+                        </span>
+                        <div className="skill-bar">
+                            <span className={inView?"skillInView":"skill"} style={skillStyle}>
+                                <span className="tooltip">{skill.percent}</span>
+                            </span>
+                        </div>
+                    </div>
+                </motion.div>
+            </View>
+            
         )
     })
 

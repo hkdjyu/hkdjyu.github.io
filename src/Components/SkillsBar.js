@@ -152,7 +152,7 @@ function SkillsBar () {
             <motion.div className="restSkills"
                 initial={showRest ? {height: "580px", } : {height: 0}}
                 animate={showRest ? {height: "580px", } : {height: 0}}
-                transition={showRest ? {duration: 1, delay: 0.5, transition: "ease-out"} : {duration: 1, delay: 0.5, transition: "ease-in"}}
+                transition={showRest ? {duration: 1, delay: 0.5, transition: "linear"} : {duration: 1, delay: 0.5, transition: "linear"}}
             >
                 {RestSkills}
             </motion.div>

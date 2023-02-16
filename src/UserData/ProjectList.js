@@ -29,7 +29,7 @@ export const ProjectList = [
         image: SpacelessImg,
         description: "a game made in a week for 32bit jam 2022",
         hasReadme: false,
-        link: "https://github.com/hkdjyu/GGJHK2023",
+        link: "https://locothomas.itch.io/spaceless",
         details: "This is a individual game jam project that I made for the game jam '32bit jam 2022'. The game is a 2.5D arcard game that players need to avoid crashing with meteorites by controlling their spaceship or eliminate the rocks. A spaceship upgrade system is introduced to the game where players can upgrade their weapons and shields with the points they earned. The game is made in Unity. ",
     },
     {

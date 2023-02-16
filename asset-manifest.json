@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.0dfbb0f0.css",
-    "main.js": "/static/js/main.4527b07d.js",
+    "main.js": "/static/js/main.eda3c6e0.js",
     "static/js/787.fd91fcc0.chunk.js": "/static/js/787.fd91fcc0.chunk.js",
     "static/media/propic.jpg": "/static/media/propic.173431953d2734ca3680.jpg",
     "static/media/Roothless.png": "/static/media/Roothless.02d51523a69a959207c6.png",
@@ -12,11 +12,11 @@
     "static/media/UnrealImage.jpg": "/static/media/UnrealImage.c1dedeac7c8278206a97.jpg",
     "index.html": "/index.html",
     "main.0dfbb0f0.css.map": "/static/css/main.0dfbb0f0.css.map",
-    "main.4527b07d.js.map": "/static/js/main.4527b07d.js.map",
+    "main.eda3c6e0.js.map": "/static/js/main.eda3c6e0.js.map",
     "787.fd91fcc0.chunk.js.map": "/static/js/787.fd91fcc0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0dfbb0f0.css",
-    "static/js/main.4527b07d.js"
+    "static/js/main.eda3c6e0.js"
   ]
 }

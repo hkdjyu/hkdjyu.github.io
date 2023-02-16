@@ -2,6 +2,8 @@ import { Description } from "@material-ui/icons";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import TickIcon from "@material-ui/icons/CheckCircleOutlineRounded";
+import { ProjectList } from "../UserData/ProjectList";
 
 function ProjectItem({image, name, id, date, description}) {
 
@@ -20,11 +22,16 @@ function ProjectItem({image, name, id, date, description}) {
             transition={{duration: 0.5, delay: id * 0.2}}
         >
             <div style={{backgroundImage: `url(${image})`}} className="bgImage">
-                <span style={{opacity: isHover ? 0.9 : 0}}>{description}</span>
+                <span style={{opacity: isHover ? 0.9 : 0}}>
+                    {description}
+                    {ProjectList[id].hasReadme && <div><p>Readme file <TickIcon/></p></div>}
+                </span>
             </div>
             <div className="info">
                 <p className="name">{name}</p>
-                <p className="date">{date}</p>
+                <div className="bottomRow">
+                    <p className="date">{date}</p>
+                </div>
             </div>
         </motion.div>
     );

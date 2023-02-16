@@ -49,6 +49,9 @@
     justify-content: space-between;
     align-items: center;
   }
+  .projectItem:hover {
+    cursor: pointer;
+  }
   .projectItem .bgImage {
     border-bottom: transparent 1px solid;
     border-top-left-radius: 15px;
@@ -71,10 +74,21 @@
     font-size: 20px;
     color: var(--body_color);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: var(--body_background);
     opacity: 0.9;
+  }
+
+  .projectItem .bgImage p {
+    font-size: 14px;
+    margin: 0%;
+    color: var(--body_color)
+  }
+  .projectItem .bgImage svg {
+    margin-top: 10px;
+    font-size: 14px;
   }
 
   .projectItem .info {

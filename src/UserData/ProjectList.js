@@ -24,10 +24,10 @@ export const ProjectList = [
         details: "This is a team project that I worked on for Global Game Jam 2023 HK. I was mainly in charge for the programming parts while my teammates are game designers and artists. The theme for this year is 'Root'. The game is a 2D top-down view game that is made in Unity. ",
     },
     {
-        name: "GameJam - Spaceless",
+        name: "Game - Spaceless",
         date: "Oct 2022 - Nov 2022",
         image: SpacelessImg,
-        description: "a game made in 6 days for Global Game Jam 2023 HK",
+        description: "a game made in a week for 32bit jam 2022",
         hasReadme: false,
         link: "https://github.com/hkdjyu/GGJHK2023",
         details: "This is a individual game jam project that I made for the game jam '32bit jam 2022'. The game is a 2.5D arcard game that players need to avoid crashing with meteorites by controlling their spaceship or eliminate the rocks. A spaceship upgrade system is introduced to the game where players can upgrade their weapons and shields with the points they earned. The game is made in Unity. ",

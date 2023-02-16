@@ -14,8 +14,6 @@ function Navbar() {
   React.useEffect(() => {
       setExpandNavbar(false)
   }, [location]);
-
-  console.log(location);
   // navigate to current home page using use Navigate
   const navigate = useNavigate();
   const goToContact = () => {

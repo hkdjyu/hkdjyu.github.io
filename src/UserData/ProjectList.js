@@ -1,10 +1,19 @@
 import MyWeb from "../Assets/Project/MyWeb.png";
+import MusicPlayerImg from "../Assets/Project/MusicPlayerImg.png";
 import Proj1Img from "../Assets/UnityImage.jpg";
 import Proj2Img from "../Assets/UnrealImage.jpg";
 import RoothlessImg from "../Assets/Project/Roothless.png";
 import SpacelessImg from "../Assets/Project/Spaceless.png";
 
 export const ProjectList = [
+    {
+        name: "Music Player Web",
+        date: "2023 - present",
+        image: MusicPlayerImg,
+        description: "a music player web app that allow users to play music",
+        hasReadme: false,
+        details: "The music player can play music from the local storage. It can display lyrics in .txt or .lrc format. It also has a music visualizer.",
+    },
     {
         name: "Portfolio Website",
         date: "2023 - present",

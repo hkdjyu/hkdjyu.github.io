@@ -11,7 +11,9 @@ export const ProjectList = [
         date: "2023 - present",
         image: MusicPlayerImg,
         description: "a music player web app that allow users to play music",
-        hasReadme: false,
+        link: "https://github.com/alexkkm/CSCI3280Project",
+        hasReadme: true,
+        markdown: '/Markdown/MusicPlayerWeb.md',
         details: "The music player can play music from the local storage. It can display lyrics in .txt or .lrc format. It also has a music visualizer.",
     },
     {

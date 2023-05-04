@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/static/css/main.0dfbb0f0.css",
-    "main.js": "/static/js/main.95a40347.js",
+    "main.js": "/static/js/main.5f54bb7a.js",
     "static/js/787.fd91fcc0.chunk.js": "/static/js/787.fd91fcc0.chunk.js",
-    "static/media/MusicPlayerImg.png": "/static/media/MusicPlayerImg.c0cc6dc2e344d2156ee8.png",
     "static/media/propic.jpg": "/static/media/propic.173431953d2734ca3680.jpg",
     "static/media/Roothless.png": "/static/media/Roothless.02d51523a69a959207c6.png",
     "static/media/MyWeb.png": "/static/media/MyWeb.925c18a0ba4a8cf8fda8.png",
     "static/media/location.png": "/static/media/location.b2bb5266e8a3618a70ab.png",
+    "static/media/MusicPlayerImg.png": "/static/media/MusicPlayerImg.80c5e450673e244d3e77.png",
     "static/media/Spaceless.png": "/static/media/Spaceless.affb019901f4d369fe91.png",
     "static/media/UnityImage.jpg": "/static/media/UnityImage.c865b95f62cfeb2e97a5.jpg",
     "static/media/UnrealImage.jpg": "/static/media/UnrealImage.c1dedeac7c8278206a97.jpg",
     "index.html": "/index.html",
     "main.0dfbb0f0.css.map": "/static/css/main.0dfbb0f0.css.map",
-    "main.95a40347.js.map": "/static/js/main.95a40347.js.map",
+    "main.5f54bb7a.js.map": "/static/js/main.5f54bb7a.js.map",
     "787.fd91fcc0.chunk.js.map": "/static/js/787.fd91fcc0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0dfbb0f0.css",
-    "static/js/main.95a40347.js"
+    "static/js/main.5f54bb7a.js"
   ]
 }

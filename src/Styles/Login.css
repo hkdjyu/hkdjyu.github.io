@@ -1,0 +1,9 @@
+.loginIcon {
+    /* transform: translate(0px, 3px) scale(0.85); */
+    display: flex;
+    align-items: center;
+    border-radius: 180px;
+    justify-content: center;
+    color: var(--navbar_background);
+    background-color: var(--navbar_color);
+}

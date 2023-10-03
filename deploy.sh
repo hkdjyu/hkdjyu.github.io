@@ -39,7 +39,7 @@ if [[ $dir == *"$REPO_NAME" ]];
     done
 fi
 
-echo -e "${GREEN}Start Pushing to GitHub...${NC}"
+echo -e "${GREEN}Start Pushing to GitHub... Please wait the pushed message.${NC}"
 git add .
 git commit -m "$commitMessage"
 git push origin main
@@ -50,7 +50,7 @@ while true; do
   echo -e "${YELLOW}Do you want to deploy to GitHub Pages? (Y/N)${NC}"
   read yn
   case $yn in
-    [Yy]* ) echo -e "${BLUE}Deploying to GitHub Pages${NC}"; break;;
+    [Yy]* ) echo -e "${BLUE}Deploying to GitHub Pages... Please wait the deployed message.${NC}"; break;;
     [Nn]* ) echo -e "${RED}Exit${NC}"; exit;;
     * ) echo -e "${YELLOW}Please answer yes or no.${NC}";;
   esac

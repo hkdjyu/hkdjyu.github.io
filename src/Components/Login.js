@@ -21,7 +21,7 @@ const Login = () => {
     // };
     return (
         <div>
-            <button>
+            <button className="loginIcon">
                 <LoginIcon/>
             </button>
             

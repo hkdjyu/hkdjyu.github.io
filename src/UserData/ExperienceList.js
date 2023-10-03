@@ -2,9 +2,21 @@ import SchoolIcon from '@material-ui/icons/School';
 import GamesIcon from '@material-ui/icons/Games';
 import ComputerIcon from '@material-ui/icons/Computer';
 import BookIcon from '@material-ui/icons/MenuBook';
+import BuildIcon from '@material-ui/icons/Build';
 
 export const ExperienceList = [
-    
+    {
+        nature: "internship",
+        icon: <BuildIcon />,
+        orgName: "Bright Minds Academy",
+        orgLink: "https://www.brightminds-edu.com/",
+        position: "Technical Assistant",
+        date: "Jul 2023 - Aug 2023",
+        descriptions: ["- developed a web application for the company using WordPress",
+                       "- designed and proposed an managemet system using React",
+                       "- provided techncal support to staff and teachers",
+                       "- assisted in AI-learning tools development and STEM course design",]
+    },
     {
         nature: "internship",
         icon: <GamesIcon />,

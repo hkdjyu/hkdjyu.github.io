@@ -3,6 +3,7 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import "../Styles/Navbar.css";
 import MenuIcon from "@material-ui/icons/Reorder";
 import DarkMode from "./DarkMode";
+import Login from "./Login";
 import GoBack from "./GoBack";
 
 
@@ -17,7 +18,7 @@ function Navbar() {
   // navigate to current home page using use Navigate
   const navigate = useNavigate();
   const goToContact = () => {
-      if(location.pathname == "/"){
+      if(location.pathname === "/"){
         setExpandNavbar(false);
         setTimeout(() => {
           const element = document.getElementById("contact");
@@ -81,6 +82,7 @@ function Navbar() {
       </div>
       <div className="right">
         <DarkMode />
+        <Login/>
         <div className="dropdownButton">
           <button 
               onClick={() =>{

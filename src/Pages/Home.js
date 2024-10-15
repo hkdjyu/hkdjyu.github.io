@@ -26,7 +26,7 @@ function Home() {
         <h2> Thomas NG </h2>
         <div className="prompt"> 
           <p>
-            A year 3 computer science student.
+            A game developer and designer with a passion for creating interactive experiences.
           </p> 
           <Link href="https://www.instagram.com/thomas_ng_/" target="_blank" rel="noopener noreferrer"> <InstagramIcon /> </Link>
           <Link href="https://github.com/hkdjyu" target="_blank" rel="noopener noreferrer"> <GitHubIcon /> </Link>
@@ -45,7 +45,7 @@ function Home() {
           </li>
             <h2> Game Development </h2>
             <span>
-              Unity Engine, Unreal Engine, Decentraland SDK, OpenGL, GLFW, GLEW, GLM
+              Unity Engine, Git, OpenGL, WebGL, Web Development
             </span>
           </li>
           <li className="item">
@@ -57,7 +57,7 @@ function Home() {
         </ol>
       </div>
       <hr class="roundedDivLine" />
-      <div className="hobbies">
+      {/* <div className="hobbies">
         <h1>Hobbies</h1>
         <ol className="list">
         <li className="item">
@@ -80,7 +80,7 @@ function Home() {
           </li>
         </ol>
       </div>
-      <hr class="roundedDivLine" />
+      <hr class="roundedDivLine" /> */}
       <div className="contact">
         <Contact/>
       </div>

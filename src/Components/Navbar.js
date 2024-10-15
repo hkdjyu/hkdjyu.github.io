@@ -82,7 +82,7 @@ function Navbar() {
       </div>
       <div className="right">
         <DarkMode />
-        <Login/>
+        {/* <Login/> */}
         <div className="dropdownButton">
           <button 
               onClick={() =>{

@@ -1,5 +1,7 @@
 # A bash script to push to GitHub and deploy to GitHub Pages
 
+echo -e "${GREEN}Start Deploying...${NC}"
+
 # REPONAME
 REPO_NAME="hkdjyu.github.io"
 

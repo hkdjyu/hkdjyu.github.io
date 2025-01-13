@@ -1,5 +1,10 @@
 # A bash script to push to GitHub and deploy to GitHub Pages
 
+# git add .
+# git commit -m "$commitMessage"
+# git push origin main
+# npm run deploy
+
 echo -e "${GREEN}Start Deploying...${NC}"
 
 # REPONAME

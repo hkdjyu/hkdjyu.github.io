@@ -26,7 +26,7 @@ function Home() {
         <h2> Thomas NG </h2>
         <div className="prompt"> 
           <p>
-            A game developer and designer with a passion for creating interactive experiences.
+            A developer and designer with a passion for creating interactive experiences.
           </p> 
           <Link href="https://www.instagram.com/thomas_ng_/" target="_blank" rel="noopener noreferrer"> <InstagramIcon /> </Link>
           <Link href="https://github.com/hkdjyu" target="_blank" rel="noopener noreferrer"> <GitHubIcon /> </Link>

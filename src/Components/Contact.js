@@ -43,7 +43,7 @@ function Contact() {
                 
                 </div>
                 <div className="right">
-                    <a href="https://www.google.com.hk/maps/place/%E5%A4%A7%E5%9C%8D%E6%9D%91/@22.3759603,114.1698498,15z/data=!3m1!4b1!4m5!3m4!1s0x340407a7c2774bf5:0x795ff33937e85cb8!8m2!3d22.375941!4d114.178626?hl=zh-TW" target="_blank" rel="noopener noreferrer"
+                    <a href="https://www.google.com.hk/maps/place/%E5%A4%A7%E5%9C%8D%E7%AB%99/@22.3759407,114.178626,15z/data=!4m15!1m8!3m7!1s0x340407a7c2774bf5:0x795ff33937e85cb8!2z5aSn5ZyN5p2R!3b1!8m2!3d22.375941!4d114.178626!16zL20vMDRzMTNn!3m5!1s0x34040708014713f1:0xf4b87b0bd219fe9c!8m2!3d22.3727071!4d114.1786167!16zL20vMDR5djhs?hl=zh-TW&entry=ttu&g_ep=EgoyMDI1MDEwOC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer"
                     onMouseEnter={() => setLocationHover(true)}
                     onMouseLeave={() => setLocationHover(false)}
                     >

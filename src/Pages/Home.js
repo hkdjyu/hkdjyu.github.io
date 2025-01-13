@@ -21,7 +21,7 @@ function Home() {
     >
       <div className="about">
         <div className="propic">
-          <img src={propic} alt="Profile Picture" />
+          <img src={propic} alt="Profile" />
         </div>
         <h2> Thomas NG </h2>
         <div className="prompt"> 
@@ -39,16 +39,22 @@ function Home() {
         <h1>Technical Skills</h1>
         <ol className="list">
           <li className="item">
-          <li className="item">
-            <h2> Programming Languages </h2>
-            <SkillsBar/>
-          </li>
+            <li className="item">
+              <h2> Programming Languages </h2>
+              <SkillsBar/>
+            </li>
+            <h2> Information Technology </h2>
+            <span>
+              Git, Linux CLI, Docker, AWS, Google Cloud
+            </span>
             <h2> Game Development </h2>
             <span>
-              Unity Engine, Git, OpenGL, WebGL, Web Development
+              Unity Engine, OpenGL, Apple ARKit, Google ARCore
             </span>
-          </li>
-          <li className="item">
+            <h2> Web Development </h2>
+            <span>
+              HTML5, CSS, JavaScript, React, Node.js, SQLite
+            </span>
             <h2> Media Editing </h2>
             <span>
               Photoshop, Illustrator, Lightroom, Aseprite, Audacity, Davinci Resolve

@@ -1,12 +1,23 @@
 import MyWeb from "../Assets/Project/MyWeb.png";
+import LangueeImg from "../Assets/Project/Languee.png";
 import Pacman3DImg from "../Assets/Project/Pacman3D.png";
 import MusicPlayerImg from "../Assets/Project/MusicPlayerImg.png";
-import Proj1Img from "../Assets/UnityImage.jpg";
-import Proj2Img from "../Assets/UnrealImage.jpg";
+// import Proj1Img from "../Assets/UnityImage.jpg";
+// import Proj2Img from "../Assets/UnrealImage.jpg";
 import RoothlessImg from "../Assets/Project/Roothless.png";
 import SpacelessImg from "../Assets/Project/Spaceless.png";
 
 export const ProjectList = [
+    {
+        name: "Languee",
+        date: "Jan 2024 - May 2024",
+        image: LangueeImg,
+        description: "an android app that helps users to learn languages",
+        link: "https://github.com/hkdjyu/Languee",
+        hasReadme: true,
+        markdown: '/Markdown/Languee.md',
+        details: "It is a solo course project with features of AI chatbot, custom flashcards and quizzes.",
+    },
     {
         name: "Pacman 3D",
         date: "Jan 2023 - May 2023",

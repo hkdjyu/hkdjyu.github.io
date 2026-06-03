@@ -1,43 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Markdown Blog</title>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <style>
-        body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-        nav { margin-bottom: 20px; }
-        button { cursor: pointer; padding: 5px 10px; }
-    </style>
-</head>
-<body>
-
-    <nav>
-        <button onclick="loadBlog('blog1.md')">Read Blog 1</button>
-        <!-- <button onclick="loadBlog('blog2.md')">Read Blog 2</button> -->
-    </nav>
-
-    <div id="blog-content">
-        <h2>Select a blog post above to start reading!</h2>
-    </div>
-
-    <script>
-        function loadBlog(filename) {
-            // Fetch the raw markdown file
-            fetch(filename)
-                .then(response => {
-                    if (!response.ok) throw new Error('Blog not found');
-                    return response.text();
-                })
-                .then(markdownText => {
-                    // Convert markdown to HTML and inject it into the div
-                    document.getElementById('blog-content').innerHTML = marked.parse(markdownText);
-                })
-                .catch(error => {
-                    document.getElementById('blog-content').innerHTML = `<p style="color:red;">Error loading post.</p>`;
-                });
-        }
-    </script>
-</body>
-</html>
+<h2>My Blogs</h2>
+<ul>
+  <li><a href="blog1.html">Read my first post</a></li>
+</ul>

@@ -1,0 +1,21 @@
+[
+  {
+    "id": "post1",
+    "src": "posts/post1/post1.md",
+    "title": "ESP32 - 利用網頁伺服器讀取及控制電子元件",
+    "date": "2026-06-03",
+    "tags": ["ESP32", "IoT"],
+    "thumbnail": "posts/post1/thumbnail.png",
+    "summary": "使用Arduino C/C++ 或 MicroPython，利用網頁伺服器讀取及控制電子元件，實現遠程監控和控制的功能。",
+    "pinned": true
+  },
+  {
+    "id": "post2",
+    "src": "posts/post2/post2.md",
+    "title": "Another Post",
+    "date": "2026-06-01",
+    "tags": ["linux"],
+    "thumbnail": "posts/post2/thumbnail.png",
+    "summary": "This one has its own isolated thumbnail."
+  }
+]

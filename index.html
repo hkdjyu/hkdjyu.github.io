@@ -1,3 +1,361 @@
-<h1>
-  Hello World!
-</h1>
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>~/my-blog</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <style>
+        /* --- Theme Variables --- */
+        :root {
+            --bg: #ffffff; --text: #24292e; --accent: #0366d6; 
+            --border: #e1e4e8; --code-bg: #f6f8fa; --card-bg: #ffffff;
+            
+            /* 【主要閱讀字體】
+              優先級：英數 Inter -> 中文思源黑體 -> Mac蘋方 -> Windows微軟正黑體 -> 系統無襯線 
+            */
+            --font-main: 'Inter', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Helvetica Neue", "Microsoft JhengHei", Helvetica, Arial, sans-serif;
+            
+            /* 【程式碼等寬字體】
+              優先級：英數 JetBrains Mono -> 中文思源黑體(維持視覺風格) -> 各系統內建等寬字體 
+            */
+            --font-code: 'JetBrains Mono', 'Noto Sans TC', "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "PingFang TC", "Microsoft JhengHei", monospace;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0d1117; --text: #c9d1d9; --accent: #58a6ff; 
+            --border: #30363d; --code-bg: #161b22; --card-bg: #161b22;
+        }
+
+        /* --- Global Base --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg); color: var(--text); font-family: var(--font-main); line-height: 1.6; transition: 0.3s; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* --- Header & Search --- */
+        header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px dashed var(--border); margin-bottom: 20px; }
+        header h1 { font-family: var(--font-code); font-size: 1.5rem; cursor: pointer; color: var(--accent); }
+        button { background: none; border: 1px solid var(--border); color: var(--text); padding: 5px 10px; border-radius: 5px; cursor: pointer; font-family: var(--font-code); transition: 0.2s; }
+        button:hover { border-color: var(--accent); color: var(--accent); }
+        
+        .search-container { margin-bottom: 30px; display: flex; align-items: center; background: var(--code-bg); padding: 10px 15px; border-radius: 6px; border: 1px solid var(--border); }
+        .search-container span { font-family: var(--font-code); color: var(--accent); margin-right: 10px; font-weight: bold; }
+        #search-input { width: 100%; background: transparent; border: none; color: var(--text); font-family: var(--font-code); font-size: 1rem; outline: none; }
+
+        /* --- Tags --- */
+        .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .tag { font-family: var(--font-code); font-size: 0.75rem; background: var(--border); color: var(--text); padding: 3px 8px; border-radius: 12px; cursor: pointer; transition: 0.2s; }
+        .tag:hover, .tag.active { background: var(--accent); color: #fff; }
+
+        /* --- Post Grid --- */
+        .post-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; list-style: none; }
+        .post-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; cursor: pointer; }
+        .post-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+        .post-thumb { width: 100%; height: 160px; object-fit: cover; border-bottom: 1px solid var(--border); }
+        .post-content { padding: 15px; }
+        .post-title { font-size: 1.2rem; margin-bottom: 5px; color: var(--accent); }
+        .post-date { font-family: var(--font-code); font-size: 0.8rem; color: #888; margin-bottom: 10px; display: block; }
+        .post-summary { font-size: 0.9rem; color: var(--text); opacity: 0.8; }
+        /* --- 置頂文章特效 --- */
+        .pinned-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: #fff;
+            font-family: var(--font-code);
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        
+        .post-card.is-pinned {
+            border-color: var(--accent); /* 置頂文章有專屬邊框顏色 */
+            box-shadow: 0 0 10px rgba(3, 102, 214, 0.1);
+        }
+
+        /* --- Markdown Content --- */
+        .markdown-body { padding-top: 10px; }
+        .markdown-body h1, .markdown-body h2, .markdown-body h3 { margin: 1.5em 0 0.5em 0; font-weight: 600; }
+        .markdown-body h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; color: var(--accent); }
+        .markdown-body a { color: var(--accent); text-decoration: none; }
+        .markdown-body a:hover { text-decoration: underline; }
+        /* Image styling inside Markdown */
+        .markdown-body img { max-width: 100%; height: auto; border-radius: 8px; margin: 20px 0; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .markdown-body pre { background-color: var(--code-bg); padding: 16px; overflow: auto; border-radius: 6px; border: 1px solid var(--border); margin: 1em 0; }
+        .markdown-body code { font-family: var(--font-code); font-size: 85%; }
+        .markdown-body blockquote { padding: 0 1em; color: #8b949e; border-left: 0.25em solid var(--border); margin: 1em 0; }
+        
+        .back-btn { margin-bottom: 20px; display: inline-block; }
+        /* --- Code Blocks & Copy Button --- */
+        .code-wrapper {
+            position: relative;
+            margin: 1em 0;
+        }
+        
+        /* Override default pre margin since wrapper handles it */
+        .markdown-body .code-wrapper pre {
+            margin: 0; 
+            padding-top: 35px; /* Make room for the button */
+        }
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-code);
+            transition: 0.2s;
+            z-index: 10;
+        }
+        .copy-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1 onclick="resetAndGoHome()">~/my-blog</h1>
+            <button id="theme-toggle">🌓 Theme</button>
+        </header>
+
+        <main id="app">
+            </main>
+    </div>
+
+    <script>
+        const appContainer = document.getElementById('app');
+        let allPosts = [];
+        let currentTag = null;
+
+        // --- Theme Logic ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            let theme = document.documentElement.getAttribute('data-theme');
+            let newTheme = theme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // // --- Markdown Config ---
+        // marked.setOptions({
+        //     langPrefix: 'hljs language-',
+        //     highlight: function(code, lang) {
+        //         const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+        //         return hljs.highlight(code, { language }).value;
+        //     }
+        // });
+
+        // --- Fetch Data ---
+        async function init() {
+            try {
+                const res = await fetch('posts.json');
+                allPosts = await res.json();
+                
+                // Route based on URL hash
+                const hash = window.location.hash.substring(1);
+                if (hash && hash.endsWith('.md')) {
+                    loadPost(hash);
+                } else {
+                    renderHome(allPosts);
+                }
+            } catch (error) {
+                appContainer.innerHTML = `<p style="color:red">Failed to load posts.json. Are you running a local server?</p>`;
+            }
+        }
+
+        // --- Render Homepage (Grid + Search + Tags) ---
+        function renderHome(postsToRender) {
+            const allTags = [...new Set(allPosts.flatMap(post => post.tags || []))];
+            
+            let html = `
+                <div class="search-container">
+                    <span>$ grep</span>
+                    <input type="text" id="search-input" placeholder="Search posts..." onkeyup="handleSearch(this.value)">
+                </div>
+                
+                <div class="tag-list">
+                    <span class="tag ${currentTag === null ? 'active' : ''}" onclick="filterByTag(null)">all</span>
+                    ${allTags.map(tag => `<span class="tag ${currentTag === tag ? 'active' : ''}" onclick="filterByTag('${tag}')">#${tag}</span>`).join('')}
+                </div>
+
+                <div class="post-grid">
+            `;
+
+            if (postsToRender.length === 0) {
+                html += `<p style="font-family: var(--font-code);">No matching posts found.</p>`;
+            } else {
+                // --- THE FIX: 排序邏輯 ---
+                // 使用 [...postsToRender] 複製一份陣列以免改動到原資料
+                const sortedPosts = [...postsToRender].sort((a, b) => {
+                    // 1. 置頂優先
+                    if (a.pinned && !b.pinned) return -1;
+                    if (!a.pinned && b.pinned) return 1;
+                    
+                    // 2. 如果狀態一樣（都是置頂或都不是），則按日期排序（最新的在前）
+                    return new Date(b.date) - new Date(a.date);
+                });
+
+                // --- 渲染卡片 ---
+                sortedPosts.forEach(post => {
+                    const tagsHtml = (post.tags || []).map(t => `<span style="color:var(--accent); font-size:0.8rem; margin-right:5px;">#${t}</span>`).join('');
+                    const isPinned = post.pinned ? true : false;
+                    
+                    html += `
+                        <div class="post-card ${isPinned ? 'is-pinned' : ''}" onclick="window.location.hash='${post.id}'; loadPost('${post.id}')">
+                            ${post.thumbnail ? `<img src="${post.thumbnail}" class="post-thumb" alt="Thumbnail" onerror="this.style.display='none'">` : ''}
+                            <div class="post-content">
+                                ${isPinned ? `<span class="pinned-badge">📌 PINNED</span>` : ''}
+                                <h2 class="post-title">${post.title}</h2>
+                                <span class="post-date">${post.date}</span>
+                                <p class="post-summary">${post.summary || ''}</p>
+                                <div style="margin-top:10px;">${tagsHtml}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            html += `</div>`;
+            appContainer.innerHTML = html;
+        }
+
+        // --- Filtering Logic ---
+        function handleSearch(query) {
+            query = query.toLowerCase();
+            const filtered = allPosts.filter(post => 
+                (post.title.toLowerCase().includes(query) || (post.summary && post.summary.toLowerCase().includes(query))) &&
+                (currentTag === null || (post.tags && post.tags.includes(currentTag)))
+            );
+            renderHome(filtered);
+            // Re-focus input because rendering replaces innerHTML
+            document.getElementById('search-input').focus();
+            document.getElementById('search-input').value = query;
+        }
+
+        function filterByTag(tag) {
+            currentTag = tag;
+            const searchInput = document.getElementById('search-input') ? document.getElementById('search-input').value : '';
+            handleSearch(searchInput);
+        }
+
+        function resetAndGoHome() {
+            currentTag = null;
+            window.location.hash = '';
+            renderHome(allPosts);
+        }
+
+        // --- Render Markdown Post ---
+        // --- Render Markdown Post ---
+        async function loadPost(postId) {
+            const targetPost = allPosts.find(p => p.id === postId);
+
+            appContainer.innerHTML = `
+                <button class="back-btn" onclick="resetAndGoHome()">< cd ..</button>
+                <p style="font-family: var(--font-code);">Loading post...</p>
+            `;
+
+            if (!targetPost) {
+                appContainer.innerHTML = `
+                    <button class="back-btn" onclick="resetAndGoHome()">< cd ..</button>
+                    <div class="markdown-body"><h1>404 File Not Found</h1></div>`;
+                return;
+            }
+
+            try {
+                const response = await fetch(targetPost.src);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const markdownText = await response.text();
+                
+                const basePath = targetPost.src.substring(0, targetPost.src.lastIndexOf('/') + 1);
+                const renderer = new marked.Renderer();
+                renderer.image = function(href, title, text) {
+                    if (!href.startsWith('http') && !href.startsWith('/')) {
+                        href = basePath + href; 
+                    }
+                    return `<img src="${href}" alt="${text}" ${title ? `title="${title}"` : ''}>`;
+                };
+
+                // Inject the parsed HTML
+                appContainer.innerHTML = `
+                    <button class="back-btn" onclick="resetAndGoHome()">< cd ..</button>
+                    <div class="markdown-body" id="post-content">
+                        ${marked.parse(markdownText, { renderer: renderer })}
+                    </div>
+                `;
+                
+                // ==========================================
+                // --- THE FIX: 觸發語法高亮 ---
+                // 讓 highlight.js 找出文章內所有的 <code> 區塊並上色
+                document.querySelectorAll('#post-content pre code').forEach((block) => {
+                    hljs.highlightElement(block);
+                });
+                // ==========================================
+                
+                // --- THE COPY BUTTON LOGIC ---
+                const codeBlocks = document.querySelectorAll('#post-content pre');
+                
+                codeBlocks.forEach((pre) => {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'code-wrapper';
+                    
+                    pre.parentNode.insertBefore(wrapper, pre);
+                    wrapper.appendChild(pre);
+                    
+                    const copyBtn = document.createElement('button');
+                    copyBtn.className = 'copy-btn';
+                    copyBtn.innerText = 'Copy';
+                    wrapper.appendChild(copyBtn);
+                    
+                    copyBtn.addEventListener('click', async () => {
+                        const codeText = pre.querySelector('code').innerText;
+                        try {
+                            await navigator.clipboard.writeText(codeText);
+                            copyBtn.innerText = 'Copied!';
+                            copyBtn.style.color = '#3fb950'; 
+                            copyBtn.style.borderColor = '#3fb950';
+                            
+                            setTimeout(() => {
+                                copyBtn.innerText = 'Copy';
+                                copyBtn.style.color = '';
+                                copyBtn.style.borderColor = '';
+                            }, 2000);
+                        } catch (err) {
+                            copyBtn.innerText = 'Error';
+                        }
+                    });
+                });
+                // -----------------------------
+
+                window.scrollTo(0, 0);
+            } catch (error) {
+                appContainer.innerHTML = `
+                    <button class="back-btn" onclick="resetAndGoHome()">< cd ..</button>
+                    <div class="markdown-body"><h1>Error Loading File</h1></div>`;
+            }
+        }
+
+        // --- Boot Up ---
+        init();
+    </script>
+</body>
+</html>

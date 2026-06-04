@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>~/thomas_ng</title>
+    <title>thomas_ng</title>
     
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
@@ -15,7 +15,7 @@
     <style>
         /* --- Theme Variables --- */
         :root {
-            --bg: #ffffff; --text: #24292e; --accent: #0366d6; 
+            --bg: #ffffff; --text: #24292e; --accent: #86842c; 
             --border: #e1e4e8; --code-bg: #f6f8fa; --card-bg: #ffffff;
             
             /* 【主要閱讀字體】
@@ -30,7 +30,7 @@
         }
 
         [data-theme="dark"] {
-            --bg: #0d1117; --text: #c9d1d9; --accent: #58a6ff; 
+            --bg: #0d1117; --text: #c9d1d9; --accent: #c0be32; 
             --border: #30363d; --code-bg: #161b22; --card-bg: #161b22;
         }
 
@@ -46,7 +46,7 @@
         button:hover { border-color: var(--accent); color: var(--accent); }
         
         .search-container { margin-bottom: 30px; display: flex; align-items: center; background: var(--code-bg); padding: 10px 15px; border-radius: 6px; border: 1px solid var(--border); }
-        .search-container span { font-family: var(--font-code); color: var(--accent); margin-right: 10px; font-weight: bold; }
+        .search-container span { font-family: var(--font-code); color: var(--accent); margin-right: 10px; font-weight: bold; width: 70px; }
         #search-input { width: 100%; background: transparent; border: none; color: var(--text); font-family: var(--font-code); font-size: 1rem; outline: none; }
 
         /* --- Tags --- */
@@ -146,7 +146,7 @@
 
         // --- Theme Logic ---
         const themeToggleBtn = document.getElementById('theme-toggle');
-        const currentTheme = localStorage.getItem('theme') || 'dark';
+        const currentTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', currentTheme);
 
         themeToggleBtn.addEventListener('click', () => {

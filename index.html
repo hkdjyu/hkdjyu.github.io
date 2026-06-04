@@ -339,6 +339,49 @@
             background: transparent !important;
             padding: 0; /* 移除多餘內距，讓外層的 code-wrapper 統一控制 */
         }
+    
+        /* ========================================= */
+        /* --- Terminal 404 錯誤畫面 --- */
+        /* ========================================= */
+        .terminal-404 {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 25px;
+            font-family: var(--font-code);
+            margin-top: 10px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+        }
+        
+        .terminal-404 p { margin-bottom: 12px; line-height: 1.5; font-size: 0.95rem; }
+        
+        /* 終端機前綴 (綠色) */
+        .term-prompt { color: #3fb950; font-weight: bold; }
+        
+        /* 使用者輸入的錯誤指令 */
+        .term-cmd { color: var(--text); }
+        
+        /* 錯誤訊息 (紅色) */
+        .term-error { color: #f85149; }
+        
+        /* 系統提示文字 (灰色) */
+        .term-sys { color: #8b949e; }
+        
+        /* 閃爍的游標 */
+        .term-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: var(--text);
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+            margin-left: 5px;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -513,10 +556,23 @@
                 <p style="font-family: var(--font-code);">Loading post...</p>
             `;
 
+            // --- 找不到文章時的 Terminal 404 畫面 ---
             if (!targetPost) {
                 appContainer.innerHTML = `
                     <button class="back-btn" onclick="resetAndGoHome()">< cd ..</button>
-                    <div class="markdown-body"><h1>404 File Not Found</h1></div>`;
+                    <div class="terminal-404">
+                        <p><span class="term-prompt">guest@~/my-blog$</span> <span class="term-cmd">cat posts/${postId}.md</span></p>
+                        <p class="term-error">cat: posts/${postId}.md: No such file or directory</p>
+                        <p class="term-sys">[ Error 404 ] - The requested markdown file does not exist.</p>
+                        <p class="term-sys">Type 'cd ..' or click the button above to return to the home directory.</p>
+                        <br>
+                        <p class="term-error">cat: posts/${postId}.md: 沒有此檔案或目錄</p>
+                        <p class="term-sys">[ 錯誤 404 ] - 找不到請求的 markdown 檔案。</p>
+                        <p class="term-sys">輸入 'cd ..' 或點擊上方按鈕返回主目錄。</p>
+                        <br>
+                        <p><span class="term-prompt">guest@~/my-blog$</span><span class="term-cursor"></span></p>
+                    </div>`
+                    ;
                 return;
             }
 

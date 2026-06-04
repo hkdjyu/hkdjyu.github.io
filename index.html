@@ -6,7 +6,9 @@
     <title>thomas_ng</title>
     
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"> -->
+    <link rel="stylesheet" id="hljs-light" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css" disabled>
+    <link rel="stylesheet" id="hljs-dark" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -331,6 +333,12 @@
             background: var(--code-bg);
             border-radius: 0 0 8px 8px;
         }
+
+        /* --- 強制 highlight.js 背景透明，套用我們的主題變數 --- */
+        .markdown-body pre code.hljs {
+            background: transparent !important;
+            padding: 0; /* 移除多餘內距，讓外層的 code-wrapper 統一控制 */
+        }
     </style>
 </head>
 <body>
@@ -350,26 +358,39 @@
         let allPosts = [];
         let currentTag = null;
 
-        // --- Theme Logic ---
+        // --- Theme Logic (升級版：包含程式碼區塊切換) ---
         const themeToggleBtn = document.getElementById('theme-toggle');
-        const currentTheme = localStorage.getItem('theme') || 'light';
+        const hljsLight = document.getElementById('hljs-light');
+        const hljsDark = document.getElementById('hljs-dark');
+        
+        // 1. 初始化檢查 (讀取 LocalStorage)
+        const currentTheme = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', currentTheme);
+        
+        // 確保重新整理時，程式碼主題與網頁主題一致
+        if (currentTheme === 'light') {
+            hljsLight.removeAttribute('disabled');
+            hljsDark.setAttribute('disabled', 'true');
+        }
 
+        // 2. 按鈕點擊切換事件
         themeToggleBtn.addEventListener('click', () => {
             let theme = document.documentElement.getAttribute('data-theme');
             let newTheme = theme === 'dark' ? 'light' : 'dark';
+            
+            // 切換網頁變數與儲存狀態
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-        });
 
-        // // --- Markdown Config ---
-        // marked.setOptions({
-        //     langPrefix: 'hljs language-',
-        //     highlight: function(code, lang) {
-        //         const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-        //         return hljs.highlight(code, { language }).value;
-        //     }
-        // });
+            // 同步切換 highlight.js 的 CSS 檔案
+            if (newTheme === 'light') {
+                hljsLight.removeAttribute('disabled');
+                hljsDark.setAttribute('disabled', 'true');
+            } else {
+                hljsDark.removeAttribute('disabled');
+                hljsLight.setAttribute('disabled', 'true');
+            }
+        });
 
         // ==========================================
         // --- 路由 (Router) 與上一頁支援邏輯 ---

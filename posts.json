@@ -15,7 +15,6 @@
     "title": "Another Post",
     "date": "2026-06-01",
     "tags": ["linux"],
-    "thumbnail": "posts/post2/thumbnail.png",
     "summary": "This one has its own isolated thumbnail."
   }
 ]

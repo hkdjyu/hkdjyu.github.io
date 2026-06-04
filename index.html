@@ -36,8 +36,14 @@
 
         /* --- Global Base --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--bg); color: var(--text); font-family: var(--font-main); line-height: 1.6; transition: 0.3s; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; }
+        body { 
+            background-color: var(--bg); color: var(--text); 
+            font-family: var(--font-main); line-height: 1.6; transition: 0.3s; 
+            /* 👇 新增這行，防止捲軸出現時導致整個頁面產生左右滑動 */
+            overflow-x: hidden; 
+            padding: 20px; /* 給整個頁面一點內距，讓內容不會貼邊太難看 */
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
 
         /* --- Header & Search --- */
         header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px dashed var(--border); margin-bottom: 20px; }
@@ -46,7 +52,7 @@
         button:hover { border-color: var(--accent); color: var(--accent); }
         
         .search-container { margin-bottom: 30px; display: flex; align-items: center; background: var(--code-bg); padding: 10px 15px; border-radius: 6px; border: 1px solid var(--border); }
-        .search-container span { font-family: var(--font-code); color: var(--accent); margin-right: 10px; font-weight: bold; width: 70px; }
+        .search-container span { font-family: var(--font-code); color: var(--accent); margin-right: 10px; font-weight: bold; width: 70px; min-width: 70px; }
         #search-input { width: 100%; background: transparent; border: none; color: var(--text); font-family: var(--font-code); font-size: 1rem; outline: none; }
 
         /* --- Tags --- */
@@ -58,8 +64,14 @@
         .post-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; list-style: none; }
         .post-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; cursor: pointer; }
         .post-card:hover { transform: translateY(-3px); border-color: var(--accent); }
-        .post-thumb { width: 100%; height: 160px; object-fit: cover; border-bottom: 1px solid var(--border); }
-        .post-content { padding: 15px; }
+        .post-thumb { 
+            width: 100%; 
+            /* 👇 移除原本的 height: 160px; 改用比例控制 */
+            aspect-ratio: 16 / 9; 
+            object-fit: cover; /* 確保圖片填滿 16:9 空間且不變形，多餘的部分會自動裁切 */
+            border-bottom: 1px solid var(--border); 
+            display: block; /* 移除圖片底部的預設空白間隙 */
+        }        .post-content { padding: 15px; }
         .post-title { font-size: 1.2rem; margin-bottom: 5px; color: var(--accent); }
         .post-date { font-family: var(--font-code); font-size: 0.8rem; color: #888; margin-bottom: 10px; display: block; }
         .post-summary { font-size: 0.9rem; color: var(--text); opacity: 0.8; }
@@ -95,17 +107,140 @@
         .markdown-body blockquote { padding: 0 1em; color: #8b949e; border-left: 0.25em solid var(--border); margin: 1em 0; }
         
         .back-btn { margin-bottom: 20px; display: inline-block; }
-        /* --- Code Blocks & Copy Button --- */
-        .code-wrapper {
-            position: relative;
-            margin: 1em 0;
+
+        /* --- Markdown 標題摺疊功能 --- */
+        /* 我們針對 H2 ~ H6 加入摺疊功能 (H1 通常是文章主標題，保留不摺疊) */
+        .markdown-body h2, .markdown-body h3, .markdown-body h4, 
+        .markdown-body h5, .markdown-body h6 {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+            /* 避免點擊時選取到文字 */
+            user-select: none; 
+            -webkit-user-select: none;
         }
         
-        /* Override default pre margin since wrapper handles it */
-        .markdown-body .code-wrapper pre {
-            margin: 0; 
-            padding-top: 35px; /* Make room for the button */
+        .markdown-body h2:hover, .markdown-body h3:hover, 
+        .markdown-body h4:hover, .markdown-body h5:hover, .markdown-body h6:hover {
+            color: var(--accent);
         }
+
+        .heading-toggle-icon {
+            font-size: 0.6em;
+            margin-right: 10px;
+            color: #888;
+            transition: transform 0.2s ease-in-out;
+            display: inline-block;
+        }
+
+        /* 當標題處於摺疊狀態時，將三角形旋轉 90 度變成 ▶ */
+        .heading-toggle-icon.is-collapsed {
+            transform: rotate(-90deg);
+        }
+        
+        /* --- 程式碼區塊 (Terminal Window 風格) --- */
+        .code-wrapper {
+            position: relative; /* 加入這行，讓漸層遮罩能絕對定位 */
+            margin: 1.5em 0;
+            max-width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--code-bg);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.04);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        [data-theme="dark"] .code-header {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .code-lang {
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            color: #888;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .code-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .code-actions button {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-code);
+            transition: 0.2s;
+        }
+
+        .code-actions button:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* --- 摺疊狀態的視覺特效 --- */
+        .code-wrapper.is-collapsed pre {
+            /* 計算公式：(行高 1.6em * 3行) + highlight.js 預設的上下 padding(約32px) */
+            max-height: calc(1.6em * 3 + 32px); 
+            overflow: hidden;
+        }
+
+        /* 漸層遮罩：讓第三行文字有慢慢淡出融入背景的高級感 */
+        .code-wrapper.is-collapsed::after {
+            content: "";
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 40px;
+            background: linear-gradient(transparent, var(--code-bg));
+            pointer-events: none; /* 讓滑鼠可以穿透，不影響選取文字 */
+        }
+
+        /* 覆寫 markdown-body 預設的 pre 樣式，使其融入我們的 wrapper */
+        .markdown-body .code-wrapper pre {
+            margin: 0;
+            border: none;
+            border-radius: 0;
+            background: transparent;
+            max-height: 5000px; 
+            transition: max-height 0.4s ease-in-out;
+        }
+
+        .code-wrapper.is-collapsed pre {
+            max-height: calc(1.6em * 3 + 32px); 
+        }
+
+        .code-wrapper::after {
+            content: "";
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 40px;
+            background: linear-gradient(transparent, var(--code-bg));
+            pointer-events: none;
+            /* 👇 新增這兩行：讓漸層遮罩也能淡入淡出 */
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        .code-wrapper.is-collapsed::after {
+            opacity: 1;
+        }
+
         .copy-btn {
             position: absolute;
             top: 8px;
@@ -124,6 +259,77 @@
         .copy-btn:hover {
             border-color: var(--accent);
             color: var(--accent);
+        }
+
+        /* --- 標題摺疊動畫特效 --- */
+        /* 讓 Markdown 內的所有元素預設都帶有動畫屬性 */
+        .markdown-body > * {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, margin 0.3s ease-in-out, padding 0.3s ease-in-out;
+            max-height: 5000px; /* 設定一個安全的極大值 */
+            opacity: 1;
+            overflow: hidden; /* 確保縮小時內容不會超出邊界 */
+        }
+        
+        /* 觸發隱藏時會套用這個類別，將所有高度與間距歸零 */
+        .is-hidden-by-heading {
+            max-height: 0 !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            opacity: 0 !important;
+            border: none !important;
+        }
+
+        /* ========================================= */
+        /* --- 網頁與程式碼區塊的自訂捲軸 (Scrollbar) --- */
+        /* ========================================= */
+        
+        /* 1. 支援 Firefox 的寫法 */
+        /* --- 全域重置與基礎 --- */
+        html {
+            /* 👇 終極修復：永遠保留捲軸空間，防止切換頁面時畫面左右跳動 */
+            overflow-y: scroll; 
+            scrollbar-gutter: stable; 
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            background-color: var(--bg); color: var(--text); 
+            font-family: var(--font-main); line-height: 1.6; transition: 0.3s; 
+            overflow-x: hidden; 
+        }
+
+        /* 2. 支援 Chrome, Edge, Safari (WebKit 核心) 的寫法 */
+        ::-webkit-scrollbar {
+            width: 0px;  /* 垂直捲軸的寬度 */
+            height: 8px; /* 水平捲軸的高度 (適用於長程式碼區塊) */
+        }
+
+        /* 捲軸的軌道背景 */
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+            border-radius: 4px;
+        }
+
+        /* 捲軸的拉桿本身 */
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+            /* 加上一點透明度，讓它更低調 */
+            opacity: 0.8; 
+        }
+
+        /* 當滑鼠懸停在拉桿上時的特效 */
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent); /* 亮起你的主題藍色 */
+        }
+
+        /* 特別針對程式碼區塊內的捲軸做微調，讓它融入深色背景 */
+        .markdown-body pre::-webkit-scrollbar-track {
+            background: var(--code-bg);
+            border-radius: 0 0 8px 8px;
         }
     </style>
 </head>
@@ -165,21 +371,32 @@
         //     }
         // });
 
-        // --- Fetch Data ---
+        // ==========================================
+        // --- 路由 (Router) 與上一頁支援邏輯 ---
+        // ==========================================
+        function handleRoute() {
+            // 👇 關鍵修復：使用 decodeURIComponent 確保中文或特殊字元的網址能被正確還原解碼
+            const hash = decodeURIComponent(window.location.hash.substring(1));
+            
+            if (hash) {
+                loadPost(hash); // 解碼後正確比對 JSON 裡的 id 並載入文章
+            } else {
+                renderHome(allPosts); // 回到首頁
+            }
+        }
+
+        // 監聽瀏覽器的「上一頁/下一頁」按鈕 (當網址的 # 改變時觸發)
+        window.addEventListener('hashchange', handleRoute);
+
+        // --- 更新 Boot Up (啟動) 邏輯 ---
         async function init() {
             try {
                 const res = await fetch('posts.json');
                 allPosts = await res.json();
                 
-                // Route based on URL hash
-                const hash = window.location.hash.substring(1);
-                if (hash && hash.endsWith('.md')) {
-                    loadPost(hash);
-                } else {
-                    renderHome(allPosts);
-                }
+                handleRoute(); // 初始載入時，直接交給 Router 判斷要顯示什麼
             } catch (error) {
-                appContainer.innerHTML = `<p style="color:red">Failed to load posts.json. Are you running a local server?</p>`;
+                appContainer.innerHTML = `<p style="color:red">Failed to load posts.json.</p>`;
             }
         }
 
@@ -219,10 +436,11 @@
                 sortedPosts.forEach(post => {
                     const tagsHtml = (post.tags || []).map(t => `<span style="color:var(--accent); font-size:0.8rem; margin-right:5px;">#${t}</span>`).join('');
                     const isPinned = post.pinned ? true : false;
-                    
+                    // ${post.thumbnail ? `<img src="${post.thumbnail}" class="post-thumb" alt="Thumbnail" onerror="this.style.display='none'">` : `<img src="/assets/images/default-thumbnail.png" class="post-thumb" alt="Default Thumbnail">`}
+
                     html += `
                         <div class="post-card ${isPinned ? 'is-pinned' : ''}" onclick="window.location.hash='${post.id}'; loadPost('${post.id}')">
-                            ${post.thumbnail ? `<img src="${post.thumbnail}" class="post-thumb" alt="Thumbnail" onerror="this.style.display='none'">` : ''}
+                            ${post.thumbnail ? `<img src="${post.thumbnail}" class="post-thumb" alt="Thumbnail" onerror="this.style.display='none'">` : ``}
                             <div class="post-content">
                                 ${isPinned ? `<span class="pinned-badge">📌 PINNED</span>` : ''}
                                 <h2 class="post-title">${post.title}</h2>
@@ -311,29 +529,74 @@
                 });
                 // ==========================================
                 
-                // --- THE COPY BUTTON LOGIC ---
+                // --- 程式碼區塊：標題列 + 複製 + 摺疊功能 ---
                 const codeBlocks = document.querySelectorAll('#post-content pre');
                 
                 codeBlocks.forEach((pre) => {
+                    // 1. 取得程式語言名稱 (highlight.js 會把語言寫在 code 的 class 裡)
+                    const codeElement = pre.querySelector('code');
+                    let langName = 'code';
+                    if (codeElement && codeElement.className) {
+                        const match = codeElement.className.match(/language-([a-z0-9\-]+)/);
+                        if (match) langName = match[1];
+                    }
+
+                    // 2. 建立外層容器與標題列
                     const wrapper = document.createElement('div');
                     wrapper.className = 'code-wrapper';
                     
-                    pre.parentNode.insertBefore(wrapper, pre);
-                    wrapper.appendChild(pre);
+                    const header = document.createElement('div');
+                    header.className = 'code-header';
                     
+                    const langSpan = document.createElement('span');
+                    langSpan.className = 'code-lang';
+                    langSpan.innerText = langName;
+
+                    const actionsDiv = document.createElement('div');
+                    actionsDiv.className = 'code-actions';
+
+                    // --- THE FIX: 聰明的摺疊按鈕邏輯 ---
+                    const toggleBtn = document.createElement('button');
+                    const codeText = pre.querySelector('code').innerText;
+                    // 計算程式碼實際行數 (去掉頭尾空白避免誤判)
+                    const lineCount = codeText.trim().split('\n').length;
+
+                    // 只有當程式碼超過 3 行時，才加入摺疊按鈕並「預設摺疊」
+                    if (lineCount > 3) {
+                        wrapper.classList.add('is-collapsed'); // 預設加上摺疊狀態
+                        toggleBtn.innerText = '▶ Expand';
+                        actionsDiv.appendChild(toggleBtn);
+                        
+                        toggleBtn.addEventListener('click', () => {
+                            wrapper.classList.toggle('is-collapsed');
+                            if (wrapper.classList.contains('is-collapsed')) {
+                                toggleBtn.innerText = '▶ Expand';
+                            } else {
+                                toggleBtn.innerText = '▼ Collapse';
+                            }
+                        });
+                    }
+                    
+                    // --- 建立複製按鈕 ---
                     const copyBtn = document.createElement('button');
-                    copyBtn.className = 'copy-btn';
                     copyBtn.innerText = 'Copy';
-                    wrapper.appendChild(copyBtn);
+                    actionsDiv.appendChild(copyBtn);
+
+                    // --- 將所有元素組裝起來 ---
+                    header.appendChild(langSpan);
+                    header.appendChild(actionsDiv);
                     
+                    pre.parentNode.insertBefore(wrapper, pre);
+                    wrapper.appendChild(header);
+                    wrapper.appendChild(pre);
+
+                    // --- 複製事件邏輯 (保持原樣) ---
                     copyBtn.addEventListener('click', async () => {
-                        const codeText = pre.querySelector('code').innerText;
                         try {
                             await navigator.clipboard.writeText(codeText);
                             copyBtn.innerText = 'Copied!';
                             copyBtn.style.color = '#3fb950'; 
                             copyBtn.style.borderColor = '#3fb950';
-                            
                             setTimeout(() => {
                                 copyBtn.innerText = 'Copy';
                                 copyBtn.style.color = '';
@@ -344,7 +607,57 @@
                         }
                     });
                 });
-                // -----------------------------
+                // ------------------------------------------
+                
+                // ==========================================
+                // --- THE FIX: 標題摺疊 (Heading Collapse) 邏輯 ---
+                // ==========================================
+                // 選取文章內所有的 h2 到 h6
+                const headings = document.querySelectorAll('#post-content h2, #post-content h3, #post-content h4, #post-content h5, #post-content h6');
+                
+                headings.forEach(heading => {
+                    // 1. 在標題前面插入一個三角形圖示
+                    const toggleIcon = document.createElement('span');
+                    toggleIcon.className = 'heading-toggle-icon';
+                    toggleIcon.innerText = '▼';
+                    heading.prepend(toggleIcon);
+
+                    // 2. 綁定點擊事件
+                    heading.addEventListener('click', () => {
+                        // 切換圖示的旋轉狀態
+                        const isCollapsed = toggleIcon.classList.toggle('is-collapsed');
+                        
+                        // 取得當前點擊的標題層級 (例如 "H2" -> 取數字 2)
+                        const currentLevel = parseInt(heading.tagName.substring(1));
+                        
+                        // 開始尋找這個標題之後的所有兄弟節點 (Next Sibling)
+                        let nextNode = heading.nextElementSibling;
+                        
+                        while (nextNode) {
+                            if (nextNode.tagName.match(/^H[1-6]$/)) {
+                                const nextNodeLevel = parseInt(nextNode.tagName.substring(1));
+                                if (nextNodeLevel <= currentLevel) {
+                                    break; 
+                                }
+                            }
+                            
+                            // ==========================================
+                            // --- THE FIX: 替換成乾淨的 Class 切換 ---
+                            // ==========================================
+                            if (isCollapsed) {
+                                // 加上 class 觸發 CSS 摺疊與淡出動畫
+                                nextNode.classList.add('is-hidden-by-heading');
+                            } else {
+                                // 移除 class 觸發 CSS 展開與淡入動畫
+                                nextNode.classList.remove('is-hidden-by-heading');
+                            }
+                            // ==========================================
+                            
+                            nextNode = nextNode.nextElementSibling;
+                        }
+                    });
+                });
+                // ==========================================
 
                 window.scrollTo(0, 0);
             } catch (error) {

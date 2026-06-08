@@ -1,5 +1,15 @@
 [
   {
+    "id": "post0",
+    "src": "posts/post0/post0.md",
+    "title": "Thomas Ng",
+    "date": "2026-06-08",
+    "tags": [],
+    "thumbnail": "posts/post0/thumbnail.png",
+    "summary": "Thomas Ng 是一位喜歡研究科技的老師",
+    "pinned": true
+  },
+  {
     "id": "post1",
     "src": "posts/post1/post1.md",
     "title": "ESP32 - 利用網頁伺服器讀取及控制電子元件",
@@ -12,9 +22,10 @@
   {
     "id": "post2",
     "src": "posts/post2/post2.md",
-    "title": "Another Post",
-    "date": "2026-06-01",
-    "tags": ["linux"],
-    "summary": "This one has its own isolated thumbnail."
+    "title": "ABlockly - 網頁式視覺化程式設計",
+    "date": "2026-06-08",
+    "tags": ["ESP32", "C/C++"],
+    "thumbnail": "posts/post2/thumbnail.png",
+    "summary": "a web-based visual programming for ESP32"
   }
 ]

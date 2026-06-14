@@ -6,7 +6,7 @@
     "date": "2026-06-08",
     "tags": [],
     "thumbnail": "posts/post0/thumbnail.jpg",
-    "summary": "Thomas Ng 是一位對電子工程及軟件開發充滿興趣的老師。",
+    "summary": "a Homo sapiens full of compassion for technology and teaching.",
     "pinned": true
   },
   {
@@ -27,5 +27,14 @@
     "tags": ["ESP32", "C/C++"],
     "thumbnail": "posts/post2/thumbnail.png",
     "summary": "a web-based visual programming for ESP32"
+  },
+  {
+    "id": "post3",
+    "src": "posts/post3/post3.md",
+    "title": "利用Google OR Tools編排時間表實例",
+    "date": "2026-06-08",
+    "tags": ["Python", "AI"],
+    "thumbnail": "posts/post3/thumbnail.png",
+    "summary": "a practical example of using Google OR Tools to solve a scheduling problem."
   }
 ]

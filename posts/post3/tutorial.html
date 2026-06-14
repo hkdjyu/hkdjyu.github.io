@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OR-Tools 智能排班實戰教學網</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        .code-syntax {
+            font-family: 'Fira Code', monospace;
+        }
+        /* 自訂捲軸 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #10b981;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-slate-900">
+
+    <!-- 導航欄 -->
+    <nav class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-emerald-400 text-xl font-bold tracking-wider mr-2">
+                        <i class="fa-solid fa-square-poll-horizontal"></i> OR-Tools
+                    </span>
+                    <span class="text-slate-300 font-medium">排班實戰學習網</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#intro" class="text-slate-300 hover:text-emerald-400 transition">核心概念</a>
+                    <a href="#code-explain" class="text-slate-300 hover:text-emerald-400 transition">代碼拆解</a>
+                    <a href="#visualize" class="text-slate-300 hover:text-emerald-400 transition">維度視覺化</a>
+                    <a href="#quiz" class="text-slate-300 hover:text-emerald-400 transition">概念複習</a>
+                    <a href="#challenges" class="text-slate-300 hover:text-emerald-400 transition">創意挑戰</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄區 (Hero Section) -->
+    <header class="relative overflow-hidden py-20 bg-gradient-to-b from-slate-900 to-slate-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
+                <div class="lg:col-span-7">
+                    <div class="inline-flex items-center space-x-2 bg-emerald-500/10 text-emerald-400 px-3  py-1 rounded-full text-sm font-medium mb-6 border border-emerald-500/20">
+                        <span class="flex h-2 w-2 relative">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        <span>適合具備 CS 與 Python 基礎者</span>
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-none mb-6">
+                        利用 <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">Google OR-Tools</span><br>破解複雜排班難題
+                    </h1>
+                    <p class="text-lg text-slate-400 mb-8 max-w-xl">
+                        約束編程（Constraint Programming）是計算機科學中解決組合優化問題的強大武器。本站將帶您深入剖析您的 Python 代碼，掌握 CP-SAT 求解器的核心邏輯。
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#code-explain" class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold rounded-lg shadow-lg transition-all transform hover:-translate-y-0.5">
+                            開始學習代碼 <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </a>
+                        <a href="#challenges" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium rounded-lg border border-slate-700 transition">
+                            直接挑戰實戰題
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-12 lg:mt-0 lg:col-span-5">
+                    <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-2xl relative">
+                        <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
+                            <div class="flex space-x-2">
+                                <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                            </div>
+                            <span class="text-xs text-slate-500 font-mono">scheduling_demo.py</span>
+                        </div>
+                        <div class="font-mono text-sm text-slate-300 space-y-2 overflow-x-auto">
+                            <p class="text-emerald-400">from ortools.sat.python import cp_model</p>
+                            <p class="text-slate-500"># 建立 CP 模型</p>
+                            <p>model = cp_model.CpModel()</p>
+                            <p class="text-slate-500"># 定義變數矩陣</p>
+                            <p>x = {}</p>
+                            <p>x[(t,c,d,p)] = model.NewBoolVar(...)</p>
+                            <p class="text-slate-500"># 求解器求解</p>
+                            <p>solver = cp_model.CpSolver()</p>
+                            <p>status = solver.Solve(model)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 核心概念 -->
+    <section id="intro" class="py-20 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">什麼是 CP-SAT 求解器？</h2>
+                <p class="mt-4 text-lg text-slate-400">
+                    OR-Tools 的 CP-SAT 是一款基於<b>約束編程（Constraint Programming）</b>的求解器。不同於傳統的啟發式算法（如遺傳算法），CP-SAT 通過「約束傳播」與「衝突導向搜索」，能在毫秒級別給出確定的最優解或可行解。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+                <div class="bg-slate-950 p-8 rounded-2xl border border-slate-800 relative group hover:border-emerald-500/30 transition">
+                    <div class="absolute -top-4 left-6 bg-emerald-500/10 text-emerald-400 w-10 h-10 rounded-xl flex items-center justify-center border border-emerald-500/20 font-bold text-lg">1</div>
+                    <h3 class="text-xl font-bold text-white mt-4 mb-3">定義決策變數</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        我們需要設定「未知的決策」。在您的代碼中，決策是布林變數：某老師在某時間是否教某班。這是一個龐大的 4D 高維布林空間。
+                    </p>
+                </div>
+                <div class="bg-slate-950 p-8 rounded-2xl border border-slate-800 relative group hover:border-emerald-500/30 transition">
+                    <div class="absolute -top-4 left-6 bg-emerald-500/10 text-emerald-400 w-10 h-10 rounded-xl flex items-center justify-center border border-emerald-500/20 font-bold text-lg">2</div>
+                    <h3 class="text-xl font-bold text-white mt-4 mb-3">宣告限制條件</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        將現實中的規則翻譯為數學等式或不等式（例如：同一個老師同時間只能在一處）。求解器會透過這些限制大幅剪枝（Prune）搜索空間。
+                    </p>
+                </div>
+                <div class="bg-slate-950 p-8 rounded-2xl border border-slate-800 relative group hover:border-emerald-500/30 transition">
+                    <div class="absolute -top-4 left-6 bg-emerald-500/10 text-emerald-400 w-10 h-10 rounded-xl flex items-center justify-center border border-emerald-500/20 font-bold text-lg">3</div>
+                    <h3 class="text-xl font-bold text-white mt-4 mb-3">執行尋優與求解</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        求解器利用先進的 SAT（命題可滿足性）技術搜索。若存在解，它能給出一個確定值為 0 或 1 的變數矩陣，這便是最終的課表。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 時空維度視覺化 -->
+    <section id="visualize" class="py-20 bg-slate-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl font-bold text-white">課表設計的維度模型：4D 變數張量</h2>
+                <p class="mt-4 text-slate-400">
+                    在電腦科學中，我們習慣將複雜問題抽象化。這段排班代碼建立了一個高維矩陣，這在空間中可以被理解為一個 4D 的座標網格：
+                </p>
+            </div>
+
+            <div class="bg-slate-900 rounded-3xl border border-slate-800 p-8">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 text-center lg:text-left">
+                    <div class="bg-slate-950 p-6 rounded-xl border border-slate-800">
+                        <div class="text-emerald-400 text-3xl font-black mb-1">T</div>
+                        <div class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Teachers (老師)</div>
+                        <p class="text-xs text-slate-500">7 位 (0 至 6)</p>
+                        <p class="text-slate-300 text-sm mt-2">中文、英文、數學、生活、宗教、資源、參觀</p>
+                    </div>
+                    <div class="bg-slate-950 p-6 rounded-xl border border-slate-800">
+                        <div class="text-cyan-400 text-3xl font-black mb-1">C</div>
+                        <div class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Classes (班級)</div>
+                        <p class="text-xs text-slate-500">5 個 (A, B, C, D, E)</p>
+                        <p class="text-slate-300 text-sm mt-2">每班一週所需學科節數皆固定且對應</p>
+                    </div>
+                    <div class="bg-slate-950 p-6 rounded-xl border border-slate-800">
+                        <div class="text-purple-400 text-3xl font-black mb-1">D</div>
+                        <div class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Days (天數)</div>
+                        <p class="text-xs text-slate-500">4 天 (Day 1 至 Day 4)</p>
+                        <p class="text-slate-300 text-sm mt-2">一個小型的四天循環教學日程表</p>
+                    </div>
+                    <div class="bg-slate-950 p-6 rounded-xl border border-slate-800">
+                        <div class="text-pink-400 text-3xl font-black mb-1">P</div>
+                        <div class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Periods (節數)</div>
+                        <p class="text-xs text-slate-500">6 節 (第 1 至第 6 節)</p>
+                        <p class="text-slate-300 text-sm mt-2">每天有六堂課，被「小息」分割為 L1-L3 和 L4-L6</p>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-slate-950 rounded-2xl border border-slate-800 p-6">
+                    <h4 class="text-white font-bold mb-4 flex items-center">
+                        <i class="fa-solid fa-calculator text-emerald-400 mr-2"></i> 總變數規模與狀態空間計算
+                    </h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        在代碼中，變數 <code>x[(t, c, d, p)]</code> 的總個數為：
+                        <span class="font-mono text-emerald-400">7 (T) &times; 5 (C) &times; 4 (D) &times; 6 (P) = 840 個布林變數</span>。
+                        如果使用簡單的暴力破解法，可能的狀態組合為 $2^{840}$ 達極天文數字，這就是為什麼必須借助 CP-SAT 求解器來進行深度搜索與剪枝。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 代碼詳盡拆解 -->
+    <section id="code-explain" class="py-20 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl font-bold text-white">代碼逐段深度拆解</h2>
+                <p class="mt-4 text-slate-400">
+                    我們將您的 Python 排班代碼分割為五大核心模組，並以計算機科學的視角為您講解底層運作機制。
+                </p>
+            </div>
+
+            <!-- 模組 1 -->
+            <div class="bg-slate-950 rounded-3xl border border-slate-800 overflow-hidden mb-12">
+                <div class="p-6 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                    <span class="text-emerald-400 font-mono text-sm">MODULE 01</span>
+                    <span class="px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-400">資料定義與黑名單矩陣</span>
+                </div>
+                <div class="p-8 lg:grid lg:grid-cols-12 lg:gap-8">
+                    <div class="lg:col-span-5 space-y-4">
+                        <h3 class="text-xl font-bold text-white">基礎資料結構與時間阻斷</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            這段程式碼首先定義了常規的物理空間常數。最有趣的是 <code>class_available</code> 字典：
+                        </p>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            這是一個典型在 CS 中使用的<b>「稀疏陣列表示法」</b>。我們用一個以多元組 <code>(c, d, p)</code> 為鍵的雜湊表（Hash Map）預先定義哪些時段是「不可用」的（例如開學禮、測驗、評估等）。
+                        </p>
+                        <div class="p-4 bg-slate-900/50 rounded-xl border border-slate-800 text-xs">
+                            <span class="text-emerald-400 font-semibold"><i class="fa-solid fa-lightbulb"></i> 設計亮點</span><br>
+                            這裡的 1 代表可行，0 代表不可行。此資料結構便於在後續約束條件宣告中直接過濾。
+                        </div>
+                    </div>
+                    <div class="lg:col-span-7 mt-6 lg:mt-0">
+                        <pre class="bg-slate-900 p-6 rounded-xl border border-slate-800 overflow-x-auto text-xs code-syntax leading-relaxed text-slate-300">
+<span class="text-slate-500"># 基礎資料定義</span>
+classes = ['A', 'B', 'C', 'D', 'E']
+num_classes = len(classes)
+num_teachers = 7
+num_days = 4
+num_periods = 6
+
+<span class="text-slate-500"># 老師科目與每班所需節數 (0:中文, 1:英文, 2:數學...)</span>
+teacher_requirements = {0: 2, 1: 2, 2: 2, 3: 2, 4: 1, 5: 1, 6: 1}
+
+<span class="text-slate-500"># 初始化時間可用表，並將固定活動時段設為 0 (不可排)</span>
+class_available = {}
+<span class="text-purple-400">for</span> c <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_classes):
+    <span class="text-purple-400">for</span> d <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_days):
+        <span class="text-purple-400">for</span> p <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_periods):
+            class_available[(c, d, p)] = 1
+
+<span class="text-slate-500"># 設定不可排課的固定活動 (如開學禮、評估等)</span>
+class_available[(c, 0, 0)] = 0  <span class="text-slate-500"># 舉例：Day 1, 節數 0 為開學禮</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模組 2 -->
+            <div class="bg-slate-950 rounded-3xl border border-slate-800 overflow-hidden mb-12">
+                <div class="p-6 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                    <span class="text-emerald-400 font-mono text-sm">MODULE 02</span>
+                    <span class="px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-400">變數註冊與模型實例化</span>
+                </div>
+                <div class="p-8 lg:grid lg:grid-cols-12 lg:gap-8">
+                    <div class="lg:col-span-5 space-y-4">
+                        <h3 class="text-xl font-bold text-white">將決策抽象為模型變數</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            我們利用 <code>model.NewBoolVar</code> 來為每個狀態註冊一個布林變數。
+                        </p>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            在底層，OR-Tools 的 CP-SAT 求解器會將這些變數鏈接到它內部的 SAT 解算引擎。每個布林變數在求解完成後，都會分配到一個二進位值（0 或 1）。
+                        </p>
+                        <div class="p-4 bg-slate-900/50 rounded-xl border border-slate-800 text-xs text-slate-400">
+                            這裡我們為變數傳入了唯一的名稱字串：<code>f'x_{t}_{c}_{d}_{p}'</code>。這對於求解器在輸出錯誤報告或診斷時非常關鍵，也有利於未來調試。
+                        </div>
+                    </div>
+                    <div class="lg:col-span-7 mt-6 lg:mt-0">
+                        <pre class="bg-slate-900 p-6 rounded-xl border border-slate-800 overflow-x-auto text-xs code-syntax leading-relaxed text-slate-300">
+model = cp_model.CpModel()
+
+<span class="text-slate-500"># 建立 4D 布林變數矩陣</span>
+x = {}
+<span class="text-purple-400">for</span> t <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_teachers):
+    <span class="text-purple-400">for</span> c <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_classes):
+        <span class="text-purple-400">for</span> d <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_days):
+            <span class="text-purple-400">for</span> p <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_periods):
+                x[(t, c, d, p)] = model.NewBoolVar(<span class="text-emerald-400">f'x_{t}_{c}_{d}_{p}'</span>)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模組 3 -->
+            <div class="bg-slate-950 rounded-3xl border border-slate-800 overflow-hidden mb-12">
+                <div class="p-6 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                    <span class="text-emerald-400 font-mono text-sm">MODULE 03</span>
+                    <span class="px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-400">硬性約束與物理物理不可能性排除</span>
+                </div>
+                <div class="p-8 lg:grid lg:grid-cols-12 lg:gap-8">
+                    <div class="lg:col-span-5 space-y-4">
+                        <h3 class="text-xl font-bold text-white">設定不可觸碰的「紅線」</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            這些約束條件是用來保障排班在物理現實中的「合理性」：
+                        </p>
+                        <ul class="list-disc pl-5 text-sm text-slate-400 space-y-2">
+                            <li><b>(A) 班級佔用時：</b>若 <code>class_available</code> 標記為 0，則利用 <code>model.Add(x == 0)</code> 宣告所有老師皆不可排課。</li>
+                            <li><b>(B) 老師不分身：</b>在任何特定的 <code>(d, p)</code> 下，所有班級 <code>c</code> 的決策變數和必須 $\le 1$。我們使用優化性能的 <code>model.AddAtMostOne(...)</code> 方法。</li>
+                            <li><b>(C) 學生不分身：</b>同理，同一 <code>(d, p)</code> 下一班只能排一位老師。</li>
+                            <li><b>(D) 教學節數要求：</b>每班一週內分配給老師 <code>t</code> 的節數總和必須恰好等於 <code>req</code>。</li>
+                        </ul>
+                    </div>
+                    <div class="lg:col-span-7 mt-6 lg:mt-0">
+                        <pre class="bg-slate-900 p-6 rounded-xl border border-slate-800 overflow-x-auto text-xs code-syntax leading-relaxed text-slate-300">
+<span class="text-slate-500"># (A) 固定活動時，不排任何課</span>
+<span class="text-purple-400">for</span> c <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_classes):
+    <span class="text-purple-400">for</span> d <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_days):
+        <span class="text-purple-400">for</span> p <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_periods):
+            <span class="text-purple-400">if</span> class_available[(c, d, p)] == 0:
+                <span class="text-purple-400">for</span> t <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_teachers):
+                    model.Add(x[(t, c, d, p)] == 0)
+
+<span class="text-slate-500"># (B) 老師不分身 (在某一節課，該老師最多只能教一個班級)</span>
+<span class="text-purple-400">for</span> t <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_teachers):
+    <span class="text-purple-400">for</span> d <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_days):
+        <span class="text-purple-400">for</span> p <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_periods):
+            model.AddAtMostOne(x[(t, c, d, p)] <span class="text-purple-400">for</span> c <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_classes))
+
+<span class="text-slate-500"># (D) 滿足學科要求總節數</span>
+<span class="text-purple-400">for</span> c <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_classes):
+    <span class="text-purple-400">for</span> t, req <span class="text-purple-400">in</span> teacher_requirements.items():
+        model.Add(<span class="text-cyan-400">sum</span>(x[(t, c, d, p)] <span class="text-purple-400">for</span> d <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_days) <span class="text-purple-400">for</span> p <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_periods)) == req)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模組 4 -->
+            <div class="bg-slate-950 rounded-3xl border border-slate-800 overflow-hidden mb-12">
+                <div class="p-6 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                    <span class="text-emerald-400 font-mono text-sm">MODULE 04</span>
+                    <span class="px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-400">高級邏輯與指示變數 (Indicator Variables)</span>
+                </div>
+                <div class="p-8 lg:grid lg:grid-cols-12 lg:gap-8">
+                    <div class="lg:col-span-5 space-y-4">
+                        <h3 class="text-xl font-bold text-white">處理進階與連堂限制</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            這是本代碼最精彩的部分，展示了如何用數學方式表示複雜邏輯。
+                        </p>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            <b>(1) 資源課與參觀課的集中化：</b>
+                            為了防止老師每天都在排課。我們建立了一個 <code>day_active</code> 的輔助變數（布林）。
+                            如果當天有上課，則 <code>day_active[d]</code> 被強迫設為 1（因為 <code>sum(x) <= 100 * day_active</code>）。如果當天沒上課，則必為 0。
+                            最後我們要求 <code>sum(day_active) <= 2</code>，這表示這些活動<b>在一週內只能發生在其中的某兩天</b>。
+                        </p>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            <b>(4) 生活課連堂逻辑：</b>
+                            這利用了 <code>OnlyEnforceIf</code> 機制。當我們建立 <code>is_pair</code> 變數，它能控制當前這一節和下一節課是否被同時觸發。這是一種非常實用的「布林開關」技巧。
+                        </p>
+                    </div>
+                    <div class="lg:col-span-7 mt-6 lg:mt-0">
+                        <pre class="bg-slate-900 p-6 rounded-xl border border-slate-800 overflow-x-auto text-xs code-syntax leading-relaxed text-slate-300">
+<span class="text-slate-500"># (1) 資源課與參觀課兩天內集中上完</span>
+<span class="text-purple-400">for</span> t <span class="text-purple-400">in</span> [5, 6]:
+    day_active = [model.NewBoolVar(<span class="text-emerald-400">f'active_t{t}_d{d}'</span>) <span class="text-purple-400">for</span> d <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_days)]
+    <span class="text-purple-400">for</span> d <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_days):
+        <span class="text-slate-500"># 大 M 法 (Big M Method)：確保 sum(x) > 0 時，active 必為 1</span>
+        model.Add(<span class="text-cyan-400">sum</span>(x[(t, c, d, p)] <span class="text-purple-400">for</span> c <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_classes) <span class="text-purple-400">for</span> p <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_periods)) <= 100 * day_active[d])
+        model.Add(<span class="text-cyan-400">sum</span>(x[(t, c, d, p)] <span class="text-purple-400">for</span> c <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_classes) <span class="text-purple-400">for</span> p <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_periods)) >= day_active[d])
+    model.Add(<span class="text-cyan-400">sum</span>(day_active) <= 2)
+
+<span class="text-slate-500"># (4) 生活技能課 (t=3) 連續兩節課堂 (連堂)</span>
+<span class="text-purple-400">for</span> c <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_classes):
+    <span class="text-purple-400">for</span> d <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_days):
+        <span class="text-slate-500"># 是否當天有生活課</span>
+        has_life_lesson = model.NewBoolVar(<span class="text-emerald-400">f'has_life_{c}_{d}'</span>)
+        day_lessons = <span class="text-cyan-400">sum</span>(x[(3, c, d, p)] <span class="text-purple-400">for</span> p <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_periods))
+        model.Add(day_lessons == 2 * has_life_lesson)
+        
+        pair_vars = []
+        <span class="text-purple-400">for</span> p <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_periods - 1):
+            is_pair = model.NewBoolVar(<span class="text-emerald-400">f'pair_{c}_{d}_{p}'</span>)
+            <span class="text-slate-500"># 如果這兩節相鄰課連著上，則強迫 x[p] + x[p+1] == 2</span>
+            model.Add(x[(3, c, d, p)] + x[(3, c, d, p+1)] == 2).OnlyEnforceIf(is_pair)
+            
+            not_pair = model.NewBoolVar(<span class="text-emerald-400">f'not_pair_{c}_{d}_{p}'</span>)
+            model.Add(x[(3, c, d, p)] + x[(3, c, d, p+1)] <= 1).OnlyEnforceIf(not_pair)
+            model.AddExactlyOne([is_pair, not_pair])
+            pair_vars.append(is_pair)
+        
+        <span class="text-slate-500"># 確保當天若有課，必須且只能構成一組連堂</span>
+        model.Add(<span class="text-cyan-400">sum</span>(pair_vars) == has_life_lesson)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模組 5 -->
+            <div class="bg-slate-950 rounded-3xl border border-slate-800 overflow-hidden">
+                <div class="p-6 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                    <span class="text-emerald-400 font-mono text-sm">MODULE 05</span>
+                    <span class="px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-400">求解與結果解譯輸出</span>
+                </div>
+                <div class="p-8 lg:grid lg:grid-cols-12 lg:gap-8">
+                    <div class="lg:col-span-5 space-y-4">
+                        <h3 class="text-xl font-bold text-white">執行引擎與結果解析</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            最後，我們實例化 <code>CpSolver</code>。因為排班問題有時是 NP-hard，為了防止程序無止境地卡住，通常我們會設定時間上限。
+                        </p>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            在成功尋求到可行解後，我們必須使用 <code>solver.Value()</code> 來提取最終布林變數的值（它會返回 0 或 1），而不能直接讀取變數對象。
+                        </p>
+                    </div>
+                    <div class="lg:col-span-7 mt-6 lg:mt-0">
+                        <pre class="bg-slate-900 p-6 rounded-xl border border-slate-800 overflow-x-auto text-xs code-syntax leading-relaxed text-slate-300">
+solver = cp_model.CpSolver()
+<span class="text-slate-500"># 設定超時保護機制：1分鐘</span>
+solver.parameters.max_time_in_seconds = 60.0
+status = solver.Solve(model)
+
+<span class="text-purple-400">if</span> status == cp_model.OPTIMAL <span class="text-purple-400">or</span> status == cp_model.FEASIBLE:
+    <span class="text-cyan-400">print</span>(<span class="text-emerald-400">"【成功排定課表！】"</span>)
+    <span class="text-slate-500"># 利用 solver.Value(x[(t, c, d, p)]) 檢查最終被分配為 1 的變數並呈現課表</span>
+<span class="text-purple-400">else</span>:
+    <span class="text-cyan-400">print</span>(<span class="text-emerald-400">"無法找到滿足所有條件的課表（無解），請檢查約束條件是否相互衝突。"</span>)</pre>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 概念複習 (Interactive Quiz) -->
+    <section id="quiz" class="py-20 bg-slate-950">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-white">自我檢測：5 道概念複習題</h2>
+                <p class="mt-4 text-slate-400">
+                    測試您對 CP-SAT 的理解程度，點擊題目以顯示答案與深度代碼解析。
+                </p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- 題目 1 -->
+                <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 transition hover:border-emerald-500/30">
+                    <button class="w-full text-left flex justify-between items-center focus:outline-none" onclick="toggleQuiz(1)">
+                        <span class="font-semibold text-lg text-white">Q1. 決策變數 <code>x[(t, c, d, p)]</code> 代表的布林變數在底層代表什麼物理意義？</span>
+                        <span id="quiz-icon-1" class="text-emerald-400 text-xl transition-transform duration-300"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div id="quiz-ans-1" class="hidden mt-4 pt-4 border-t border-slate-800 text-slate-300 text-sm leading-relaxed">
+                        <p class="mb-2"><b>答案：</b>代表一個「時空排定決策開關」。</p>
+                        <p>當該布林值經求解器確定為 <code class="text-emerald-400">1 (True)</code> 時，表示「老師 <code>t</code> 在第 <code>d</code> 天的第 <code>p</code> 節，被指派去教 <code>c</code> 班級」。若為 <code class="text-red-400">0 (False)</code> 則表示不教。整個排課表的過程，實質上就是在尋求這個矩陣的最佳 0/1 分佈。</p>
+                    </div>
+                </div>
+
+                <!-- 題目 2 -->
+                <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 transition hover:border-emerald-500/30">
+                    <button class="w-full text-left flex justify-between items-center focus:outline-none" onclick="toggleQuiz(2)">
+                        <span class="font-semibold text-lg text-white">Q2. 約束中使用的 <code>model.AddAtMostOne(...)</code> 和 <code>model.Add(sum(...) &le; 1)</code> 有何差異？</span>
+                        <span id="quiz-icon-2" class="text-emerald-400 text-xl transition-transform duration-300"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div id="quiz-ans-2" class="hidden mt-4 pt-4 border-t border-slate-800 text-slate-300 text-sm leading-relaxed">
+                        <p class="mb-2"><b>答案：</b>語意上是等價的，但底層引擎的優化效率大不相同。</p>
+                        <p><code>AddAtMostOne</code> 是 OR-Tools 針對「至多只有一個為 True」的情境專門設計的約束。底層 SAT 引擎會直接將其翻譯成高度優化的 2-SAT 克勞斯（Clauses）或一組邏輯門結構，其搜索與剪枝效率遠高於通用的代數不等式加和 <code>Add(sum(...) <= 1)</code>。</p>
+                    </div>
+                </div>
+
+                <!-- 題目 3 -->
+                <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 transition hover:border-emerald-500/30">
+                    <button class="w-full text-left flex justify-between items-center focus:outline-none" onclick="toggleQuiz(3)">
+                        <span class="font-semibold text-lg text-white">Q3. <code>class_available[(c, d, p)] == 0</code> 的條件，為何不直接不宣告該變數，而是要用 <code>model.Add(x == 0)</code>？</span>
+                        <span id="quiz-icon-3" class="text-emerald-400 text-xl transition-transform duration-300"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div id="quiz-ans-3" class="hidden mt-4 pt-4 border-t border-slate-800 text-slate-300 text-sm leading-relaxed">
+                        <p class="mb-2"><b>答案：</b>為了維持常規的 4D 矩陣結構完整性，方便統一進行群體約束運算。</p>
+                        <p>如果在建立 <code>x</code> 字典時直接排除 <code>class_available</code> 為 0 的鍵，那麼我們在後面實行 <code>sum(x[(t, c, d, p)] for c in range(...))</code> 等操作時，就會頻繁遇到 <code>KeyError</code>，需要寫大量繁瑣的 <code>if key in x</code> 判斷式。透過將其指派為硬性條件 <code>x == 0</code>，既能利用求解器自動簡化排除，又能保持代碼邏輯的簡潔優雅。</p>
+                    </div>
+                </div>
+
+                <!-- 題目 4 -->
+                <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 transition hover:border-emerald-500/30">
+                    <button class="w-full text-left flex justify-between items-center focus:outline-none" onclick="toggleQuiz(4)">
+                        <span class="font-semibold text-lg text-white">Q4. 高級限制條件中，<code>OnlyEnforceIf</code> 在連堂課邏輯中起什麼關鍵作用？</span>
+                        <span id="quiz-icon-4" class="text-emerald-400 text-xl transition-transform duration-300"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div id="quiz-ans-4" class="hidden mt-4 pt-4 border-t border-slate-800 text-slate-300 text-sm leading-relaxed">
+                        <p class="mb-2"><b>答案：</b>它是條件限制（Implication / 蘊含邏輯）在 OR-Tools 中的具體實現。</p>
+                        <p>當我們宣告 <code>model.Add(A == B).OnlyEnforceIf(is_pair)</code> 時，其代表的數學意義是：<br>
+                        <span class="font-mono text-emerald-400">is_pair &rArr; (A == B)</span><br>
+                        意即當 <code>is_pair</code> 布林值為 1 時，該等式限制必須被強烈執行；如果為 0，這個約束就不會被觸發，允許 $A \neq B$。這可以讓程序靈活地控制哪些限制在何時生效。</p>
+                    </div>
+                </div>
+
+                <!-- 題目 5 -->
+                <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 transition hover:border-emerald-500/30">
+                    <button class="w-full text-left flex justify-between items-center focus:outline-none" onclick="toggleQuiz(5)">
+                        <span class="font-semibold text-lg text-white">Q5. <code>solver.Solve(model)</code> 返回的 <code>OPTIMAL</code> 和 <code>FEASIBLE</code> 有何本質區別？</span>
+                        <span id="quiz-icon-5" class="text-emerald-400 text-xl transition-transform duration-300"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div id="quiz-ans-5" class="hidden mt-4 pt-4 border-t border-slate-800 text-slate-300 text-sm leading-relaxed">
+                        <p class="mb-2"><b>答案：</b>這關係到是否存在「目標函數（Objective Function）」以及是否已被證明為最優。</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><b>FEASIBLE (可行解)：</b>代碼中所有的 <code>model.Add(...)</code> 限制均被滿足。但因為您的代碼中<b>沒有設置目標函數</b>（例如：沒有調用 <code>model.Minimize(...)</code> 或 <code>model.Maximize(...)</code>），所以對求解器而言，任何一個滿足條件的課表都是好課表，回傳的均是可行解。</li>
+                            <li><b>OPTIMAL (最優解)：</b>當我們宣告了目標優化目標，且求解器能在數學上「證明」沒有比當前解更優秀的解存在時，返回此狀態。如果沒有目標函數，有時求解器在完成全域空間掃描後，也會直接回傳 OPTIMAL。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 創意挑戰題 -->
+    <section id="challenges" class="py-20 bg-slate-900">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-white">創意挑戰：5 道實戰擴充題</h2>
+                <p class="mt-4 text-slate-400">
+                    排班最大的挑戰是面對源源不斷的「新需求」。請發揮您的編程實力，思考並嘗試實現以下擴充！
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 挑戰 1 -->
+                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="text-emerald-400 font-bold mb-2 flex items-center">
+                            <i class="fa-solid fa-hourglass-half mr-2"></i> 挑戰一：老師每日最高課時限制
+                        </div>
+                        <p class="text-xs text-slate-500 mb-4">實戰難度：★★☆☆☆</p>
+                        <p class="text-sm text-slate-300 mb-4">
+                            <b>情境描述：</b>為了避免老師過度疲勞，規定<b>任何一位老師，在同一天（d）內最多只能上 3 節課</b>。
+                        </p>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-xs text-slate-400 mb-4">
+                            <span class="text-white font-semibold">思路提示：</span><br>
+                            固定老師 <code>t</code> 與天數 <code>d</code>，對所有班級 <code>c</code> 與節數 <code>p</code> 進行加總，限制其和小於等於 3。
+                        </div>
+                    </div>
+                    <div>
+                        <button class="w-full py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-lg text-xs font-semibold border border-emerald-500/30 transition" onclick="toggleCode('code-c1')">
+                            顯示解決方案代碼
+                        </button>
+                        <div id="code-c1" class="hidden mt-3 text-left">
+                            <pre class="bg-slate-900 p-4 rounded-xl text-[11px] code-syntax overflow-x-auto text-slate-300">
+<span class="text-slate-500"># 限制每位老師每天最多3節課</span>
+<span class="text-purple-400">for</span> t <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_teachers):
+    <span class="text-purple-400">for</span> d <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_days):
+        model.Add(<span class="text-cyan-400">sum</span>(x[(t, c, d, p)] 
+            <span class="text-purple-400">for</span> c <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_classes) 
+            <span class="text-purple-400">for</span> p <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_periods)) <= 3)</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 挑戰 2 -->
+                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="text-emerald-400 font-bold mb-2 flex items-center">
+                            <i class="fa-solid fa-school mr-2"></i> 挑戰二：實體專用教室預約衝突
+                        </div>
+                        <p class="text-xs text-slate-500 mb-4">實戰難度：★★★☆☆</p>
+                        <p class="text-sm text-slate-300 mb-4">
+                            <b>情境描述：</b>學校只有<b>一間「生活技能室」</b>。因此，所有班級的生活課（t=3）在同一時間段 <code>(d, p)</code> 內，<b>最多只能有一班</b>在使用該教室。
+                        </p>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-xs text-slate-400 mb-4">
+                            <span class="text-white font-semibold">思路提示：</span><br>
+                            鎖定科目 <code>t=3</code>，在任何特定的 <code>(d, p)</code>，全體班級 <code>c</code> 的決策值加總必須小於等於 1。
+                        </div>
+                    </div>
+                    <div>
+                        <button class="w-full py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-lg text-xs font-semibold border border-emerald-500/30 transition" onclick="toggleCode('code-c2')">
+                            顯示解決方案代碼
+                        </button>
+                        <div id="code-c2" class="hidden mt-3 text-left">
+                            <pre class="bg-slate-900 p-4 rounded-xl text-[11px] code-syntax overflow-x-auto text-slate-300">
+<span class="text-slate-500"># 確保同一個時段只能有一班上生活課(t=3)</span>
+<span class="text-purple-400">for</span> d <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_days):
+    <span class="text-purple-400">for</span> p <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_periods):
+        model.AddAtMostOne(x[(3, c, d, p)] <span class="text-purple-400">for</span> c <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_classes))</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 挑戰 3 -->
+                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="text-emerald-400 font-bold mb-2 flex items-center">
+                            <i class="fa-solid fa-calendar-days mr-2"></i> 挑戰三：核心科目分散原則
+                        </div>
+                        <p class="text-xs text-slate-500 mb-4">實戰難度：★★★☆☆</p>
+                        <p class="text-sm text-slate-300 mb-4">
+                            <b>情境描述：</b>為了保證學生學習吸收效果，規定<b>同一班級（c）在同一天（d）內，中文課（t=0）和英文課（t=1）不能重複上兩堂</b>（意即中文每天最多1節，英文每天最多1節）。
+                        </p>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-xs text-slate-400 mb-4">
+                            <span class="text-white font-semibold">思路提示：</span><br>
+                            對每個 <code>c</code>、每個 <code>d</code>，及學科 <code>t &in; {0, 1}</code>，對所有節數 <code>p</code> 進行加總，限制上限為 1。
+                        </div>
+                    </div>
+                    <div>
+                        <button class="w-full py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-lg text-xs font-semibold border border-emerald-500/30 transition" onclick="toggleCode('code-c3')">
+                            顯示解決方案代碼
+                        </button>
+                        <div id="code-c3" class="hidden mt-3 text-left">
+                            <pre class="bg-slate-900 p-4 rounded-xl text-[11px] code-syntax overflow-x-auto text-slate-300">
+<span class="text-slate-500"># 限制中英文主科每天最多上1節</span>
+<span class="text-purple-400">for</span> c <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_classes):
+    <span class="text-purple-400">for</span> d <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_days):
+        <span class="text-purple-400">for</span> t <span class="text-purple-400">in</span> [0, 1]:  <span class="text-slate-500"># 中文、英文</span>
+            model.Add(<span class="text-cyan-400">sum</span>(x[(t, c, d, p)] <span class="text-purple-400">for</span> p <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_periods)) <= 1)</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 挑戰 4 -->
+                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="text-emerald-400 font-bold mb-2 flex items-center">
+                            <i class="fa-solid fa-heart mr-2"></i> 挑戰四：偏好優化：導師課時段（軟限制）
+                        </div>
+                        <p class="text-xs text-slate-500 mb-4">實戰難度：★★★★☆</p>
+                        <p class="text-sm text-slate-300 mb-4">
+                            <b>情境描述：</b>宗教學科（t=4）的老師<b>極其希望不要把他的課排在每天的最後一節（p=5）</b>。這不是一個強制性的物理限制，而是一個「偏好（Preference）」。
+                        </p>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-xs text-slate-400 mb-4">
+                            <span class="text-white font-semibold">思路提示：</span><br>
+                            這屬於「軟限制 (Soft Constraint)」，我們需要引入一個<b>目標優化函數</b>。對宗教課排在 <code>p=5</code> 的次數實施懲罰（Penalty），並調用 <code>model.Minimize(...)</code> 來最小化這個懲罰分。
+                        </div>
+                    </div>
+                    <div>
+                        <button class="w-full py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-lg text-xs font-semibold border border-emerald-500/30 transition" onclick="toggleCode('code-c4')">
+                            顯示解決方案代碼
+                        </button>
+                        <div id="code-c4" class="hidden mt-3 text-left">
+                            <pre class="bg-slate-900 p-4 rounded-xl text-[11px] code-syntax overflow-x-auto text-slate-300">
+<span class="text-slate-500"># 軟約束：宗教課(t=4)不希望排在最後一節(p=5)</span>
+penalties = []
+<span class="text-purple-400">for</span> c <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_classes):
+    <span class="text-purple-400">for</span> d <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_days):
+        <span class="text-slate-500"># 若在 p=5 排課，將會被計入懲罰</span>
+        penalties.append(x[(4, c, d, 5)])
+
+<span class="text-slate-500"># 設定優化目標：最小化違反宗教老師意願的次數</span>
+model.Minimize(<span class="text-cyan-400">sum</span>(penalties))</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 挑戰 5 -->
+                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col justify-between md:col-span-2">
+                    <div>
+                        <div class="text-emerald-400 font-bold mb-2 flex items-center">
+                            <i class="fa-solid fa-users-rectangle mr-2"></i> 挑戰五：合班共同參觀課（多維連動限制）
+                        </div>
+                        <p class="text-xs text-slate-500 mb-4">實戰難度：★★★★★</p>
+                        <p class="text-sm text-slate-300 mb-4">
+                            <b>情境描述：</b>學校為了節約資源，規定<b>D 班和 E 班的「參觀課（t=6）」必須被安排在同一個時間段共同進行</b>（因為這兩班要乘同一輛巴士去，由同一位參觀老師 <code>t=6</code> 帶領）。
+                        </p>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-xs text-slate-400 mb-4">
+                            <span class="text-white font-semibold">思路提示：</span><br>
+                            這表示對於任何特定的時間 <code>(d, p)</code>，D班（c=3）被排參觀課與E班（c=4）被排參觀課的布林決策變數值<b>必須完全相等</b>（同為 0，或同為 1）。我們可以直接用等式 <code>model.Add(x_D == x_E)</code> 來綁定。
+                        </div>
+                    </div>
+                    <div>
+                        <button class="w-full py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-lg text-xs font-semibold border border-emerald-500/30 transition" onclick="toggleCode('code-c5')">
+                            顯示解決方案代碼
+                        </button>
+                        <div id="code-c5" class="hidden mt-3 text-left">
+                            <pre class="bg-slate-900 p-4 rounded-xl text-[11px] code-syntax overflow-x-auto text-slate-300">
+<span class="text-slate-500"># 將 D班 (c=3) 與 E班 (c=4) 的參觀課 (t=6) 時序同步</span>
+<span class="text-purple-400">for</span> d <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_days):
+    <span class="text-purple-400">for</span> p <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(num_periods):
+        <span class="text-slate-500"># D班與E班在同一時間是否參觀，必須完全一致</span>
+        model.Add(x[(6, 3, d, p)] == x[(6, 4, d, p)])</pre>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 頁尾 -->
+    <footer class="bg-slate-950 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-sm">
+            <p>&copy; 2026 OR-Tools 智能排班學習平台. 基於 Google Constraint Optimization 技術.</p>
+            <p class="mt-2 text-xs">專為具備基本電腦科學基礎的開發者打造的互動式課堂</p>
+        </div>
+    </footer>
+
+    <!-- 交互式 JS 控制 -->
+    <script>
+        // 控制複習題點擊摺疊與展開
+        function toggleQuiz(id) {
+            const answerDiv = document.getElementById(`quiz-ans-${id}`);
+            const iconSpan = document.getElementById(`quiz-icon-${id}`);
+            
+            if (answerDiv.classList.contains('hidden')) {
+                answerDiv.classList.remove('hidden');
+                iconSpan.style.transform = 'rotate(45deg)';
+                iconSpan.classList.add('text-rose-400');
+                iconSpan.classList.remove('text-emerald-400');
+            } else {
+                answerDiv.classList.add('hidden');
+                iconSpan.style.transform = 'rotate(0deg)';
+                iconSpan.classList.add('text-emerald-400');
+                iconSpan.classList.remove('text-rose-400');
+            }
+        }
+
+        // 控制代碼塊顯隱
+        function toggleCode(id) {
+            const codeDiv = document.getElementById(id);
+            if (codeDiv.classList.contains('hidden')) {
+                codeDiv.classList.remove('hidden');
+            } else {
+                codeDiv.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

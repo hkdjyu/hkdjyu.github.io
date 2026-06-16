@@ -1,6 +1,6 @@
 # Thomas NG
 - A Homo sapiens full of compassion for technology and teaching.
-- 一個對科技與教學充滿熱誠的智人。
+- 一個對科技與教學充滿熱誠的智人。  
 [GitHub](https://github.com/hkdjyu)
 
 ## Work Experience

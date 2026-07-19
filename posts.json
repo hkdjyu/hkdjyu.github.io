@@ -36,5 +36,14 @@
     "tags": ["Python", "AI"],
     "thumbnail": "posts/post3/thumbnail.png",
     "summary": "a practical example of using Google OR Tools to solve a scheduling problem."
+  },
+  {
+    "id": "post4",
+    "src": "posts/post4/post4.md",
+    "title": "利用ESP32S3，按鈕與LCD1602建立菜單系統控制",
+    "date": "2026-07-19",
+    "tags": ["ESP32", "C/C++", "IoT"],
+    "thumbnail": "posts/post4/thumbnail.jpg",
+    "summary": "利用ESP32S3，按鈕與LCD1602建立菜單系統控制，實現對電子元件的操作和控制。"
   }
 ]

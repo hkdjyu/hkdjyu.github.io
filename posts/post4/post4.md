@@ -2,12 +2,12 @@
 
 ## **目錄 (Table of Contents)**
 
-1. [專案概述 (Project Overview)](#bookmark=id.g838r1p6zjt4)  
-2. [硬體架構與腳位配置 (Hardware Architecture)](#bookmark=id.th6f24qqfv71)  
-3. [照明模式與功能 (Lighting Modes & Features)](#bookmark=id.21iktqmg4j7j)  
-4. [選單系統與操作邏輯 (Menu System & UI Logic)](#bookmark=id.ifpie4rjl1qd)  
-5. [網頁伺服器與虛擬顯示 (Web Server & Virtual Display)](#bookmark=id.ed3w8wb9pvu5)  
-6. [軟體代碼設計亮點 (Software Design Highlights)](#bookmark=id.30lbxbe9jzm1)
+1. [專案概述 (Project Overview)](#1-專案概述-project-overview)
+2. [硬體架構與腳位配置 (Hardware Architecture)](#2-硬體架構與腳位配置-hardware-architecture)
+3. [照明模式與功能 (Lighting Modes & Features)](#3-照明模式與功能-lighting-modes--features)
+4. [選單系統與操作邏輯 (Menu System & UI Logic)](#4-選單系統與操作邏輯-menu-system--ui-logic)
+5. [網頁伺服器與虛擬顯示 (Web Server & Virtual Display)](#5-網頁伺服器與虛擬顯示-web-server--virtual-display) 
+6. [軟體代碼設計亮點 (Software Design Highlights)](#6-軟體代碼設計亮點-software-design-highlights)
 
 ## **1\. 專案概述 (Project Overview)**
 

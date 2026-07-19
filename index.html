@@ -102,6 +102,18 @@
         .markdown-body h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; color: var(--accent); }
         .markdown-body a { color: var(--accent); text-decoration: none; }
         .markdown-body a:hover { text-decoration: underline; }
+        /* Restore list styles removed by global reset so Markdown point forms (* item) display correctly */
+        .markdown-body ul,
+        .markdown-body ol {
+            margin: 1em 0;
+            padding-left: 1.6em;
+        }
+        .markdown-body ul { list-style: disc; }
+        .markdown-body ul ul { list-style: circle; }
+        .markdown-body ul ul ul { list-style: square; }
+        .markdown-body ol { list-style: decimal; }
+        .markdown-body li { margin: 0.35em 0; }
+        .markdown-body li > p { margin: 0.25em 0; }
         /* Image styling inside Markdown */
         .markdown-body img { max-width: 100%; height: auto; border-radius: 8px; margin: 20px 0; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .markdown-body pre { background-color: var(--code-bg); padding: 16px; overflow: auto; border-radius: 6px; border: 1px solid var(--border); margin: 1em 0; }

@@ -750,6 +750,7 @@
 
                 window.scrollTo(0, 0);
             } catch (error) {
+                console.error('Error loading markdown file:', error);
                 appContainer.innerHTML = `
                     <button class="back-btn" onclick="resetAndGoHome()">< cd ..</button>
                     <div class="markdown-body"><h1>Error Loading File</h1></div>`;

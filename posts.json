@@ -45,5 +45,14 @@
     "tags": ["ESP32", "C/C++", "IoT"],
     "thumbnail": "posts/post4/thumbnail.jpg",
     "summary": "利用ESP32S3，按鈕與LCD1602建立菜單系統控制，實現對電子元件的操作和控制。"
+  },
+  {
+    "id": "post5",
+    "src": "posts/post5/post5.md",
+    "title": "燈帶控制盒 - 利用micro:bit, LCD1602和EC11控制SK6812燈帶",
+    "date": "2026-07-24",
+    "tags": ["micro:bit", "Embedded"],
+    "thumbnail": "posts/post5/thumbnail.jpg",
+    "summary": "利用micro:bit, LCD1602和EC11控制SK6812燈帶，實現對燈帶的操控。"
   }
 ]

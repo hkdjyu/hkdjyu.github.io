@@ -79,8 +79,7 @@
 * **邊緣觸發與防抖 (Edge-triggered Debounce)：** 按鍵輸入採用 250ms 的冷卻時間與狀態比對，徹底解決按鍵連點 (Bouncing) 問題。  
 * **一維化陣列操作：** 在處理 Timer 模式的 20 個設定步驟時，巧妙利用除法求商 (phase \= step / 5) 與餘數 (param \= step % 5)，將複雜的多層級選單扁平化，大幅減少了 if-else 判斷式，節省記憶體並提高可讀性。
 
-## **6\. 代碼片段 (Code Snippets)**  
-
+## **6\. 代碼片段 (Code Snippets)**
 ```cpp
 /*
  * 專案：ESP32-S3 多空間智能燈光控制系統 (虛擬網頁版)
@@ -606,3 +605,4 @@ void loop() {
     }
 }
 ```
+{% endraw %}

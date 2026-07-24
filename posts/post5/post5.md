@@ -1,6 +1,6 @@
 # **智能燈光控制系統 (Smart Lighting System) \- 技術文檔**
 
-## **目錄 (Table of Contents)** 
+## **目錄 (Table of Contents)**
 
 1. [專案概述 (Project Overview)](#1-專案概述-project-overview)
 2. [硬體架構與腳位配置 (Hardware Architecture)](#2-硬體架構與腳位配置-hardware-architecture)

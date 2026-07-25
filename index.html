@@ -6,6 +6,7 @@
     <title>thomas_ng</title>
     
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"> -->
     <link rel="stylesheet" id="hljs-light" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css" disabled>
     <link rel="stylesheet" id="hljs-dark" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
@@ -558,6 +559,26 @@
             renderHome(allPosts);
         }
 
+        function stripFrontMatter(markdown) {
+            // Remove optional YAML front matter so content-only markdown renders cleanly.
+            return markdown.replace(/^---\s*\n[\s\S]*?\n---\s*\n/, '');
+        }
+
+        function resolveContentUrl(url, basePath) {
+            if (!url) return url;
+            if (url.startsWith('#') || url.startsWith('mailto:') || url.startsWith('tel:')) return url;
+
+            try {
+                return new URL(url, `${window.location.origin}/${basePath}`).href;
+            } catch (_) {
+                try {
+                    return new URL(url, window.location.href).href;
+                } catch (_) {
+                    return url;
+                }
+            }
+        }
+
         // --- Render Markdown Post ---
         // --- Render Markdown Post ---
         async function loadPost(postId) {
@@ -592,21 +613,40 @@
                 const response = await fetch(targetPost.src);
                 if (!response.ok) throw new Error('Network response was not ok');
                 const markdownText = await response.text();
+                const cleanMarkdown = stripFrontMatter(markdownText.replace(/^\uFEFF/, ''));
                 
                 const basePath = targetPost.src.substring(0, targetPost.src.lastIndexOf('/') + 1);
                 const renderer = new marked.Renderer();
                 renderer.image = function(href, title, text) {
-                    if (!href.startsWith('http') && !href.startsWith('/')) {
-                        href = basePath + href; 
-                    }
+                    href = resolveContentUrl(href, basePath);
                     return `<img src="${href}" alt="${text}" ${title ? `title="${title}"` : ''}>`;
                 };
+                renderer.link = function(href, title, text) {
+                    const safeHref = resolveContentUrl(href, basePath);
+                    const isExternal = /^https?:\/\//i.test(safeHref);
+                    const targetAttr = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+                    const titleAttr = title ? ` title="${title}"` : '';
+                    return `<a href="${safeHref}"${titleAttr}${targetAttr}>${text}</a>`;
+                };
+
+                marked.setOptions({
+                    gfm: true,
+                    breaks: true
+                });
+
+                const parsedHtml = marked.parse(cleanMarkdown, { renderer: renderer });
+                const safeHtml = window.DOMPurify
+                    ? DOMPurify.sanitize(parsedHtml, {
+                        USE_PROFILES: { html: true },
+                        ADD_ATTR: ['target', 'rel']
+                    })
+                    : parsedHtml;
 
                 // Inject the parsed HTML
                 appContainer.innerHTML = `
                     <button class="back-btn" onclick="resetAndGoHome()">< cd ..</button>
                     <div class="markdown-body" id="post-content">
-                        ${marked.parse(markdownText, { renderer: renderer })}
+                        ${safeHtml}
                     </div>
                 `;
                 

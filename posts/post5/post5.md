@@ -1,6 +1,6 @@
 # 燈帶控制盒 - 利用 micro:bit, LCD1602 和 EC11 控制 SK6812 燈帶
 
-<img src="./IMG_0181.jpg" alt="燈帶控制盒" width="400"/>
+<img src="/posts/post5/IMG_0181.jpg" alt="燈帶控制盒" width="400"/>
 
 ## 📝 文章目錄
 1. [專案簡介](#-專案簡介)

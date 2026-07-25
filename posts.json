@@ -34,7 +34,6 @@
     "title": "利用Google OR Tools編排時間表實例",
     "date": "2026-06-08",
     "tags": ["Python", "AI"],
-    "thumbnail": "posts/post3/thumbnail.png",
     "summary": "a practical example of using Google OR Tools to solve a scheduling problem."
   },
   {

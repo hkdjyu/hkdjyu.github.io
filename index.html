@@ -565,6 +565,14 @@
         }
 
         function resolveContentUrl(url, basePath) {
+            if (typeof url !== 'string') {
+                if (url && typeof url === 'object' && typeof url.href === 'string') {
+                    url = url.href;
+                } else {
+                    url = String(url || '');
+                }
+            }
+
             if (!url) return url;
             if (url.startsWith('#') || url.startsWith('mailto:') || url.startsWith('tel:')) return url;
 
@@ -618,15 +626,22 @@
                 const basePath = targetPost.src.substring(0, targetPost.src.lastIndexOf('/') + 1);
                 const renderer = new marked.Renderer();
                 renderer.image = function(href, title, text) {
-                    href = resolveContentUrl(href, basePath);
-                    return `<img src="${href}" alt="${text}" ${title ? `title="${title}"` : ''}>`;
+                    const token = (href && typeof href === 'object') ? href : null;
+                    const imgHref = resolveContentUrl(token ? token.href : href, basePath);
+                    const imgTitle = token ? token.title : title;
+                    const imgText = token ? token.text : text;
+                    return `<img src="${imgHref}" alt="${imgText || ''}" ${imgTitle ? `title="${imgTitle}"` : ''}>`;
                 };
                 renderer.link = function(href, title, text) {
-                    const safeHref = resolveContentUrl(href, basePath);
+                    const token = (href && typeof href === 'object') ? href : null;
+                    const linkHref = token ? token.href : href;
+                    const linkTitle = token ? token.title : title;
+                    const linkText = token ? token.text : text;
+                    const safeHref = resolveContentUrl(linkHref, basePath);
                     const isExternal = /^https?:\/\//i.test(safeHref);
                     const targetAttr = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
-                    const titleAttr = title ? ` title="${title}"` : '';
-                    return `<a href="${safeHref}"${titleAttr}${targetAttr}>${text}</a>`;
+                    const titleAttr = linkTitle ? ` title="${linkTitle}"` : '';
+                    return `<a href="${safeHref}"${titleAttr}${targetAttr}>${linkText || ''}</a>`;
                 };
 
                 marked.setOptions({
@@ -649,151 +664,160 @@
                         ${safeHtml}
                     </div>
                 `;
-                
-                // ==========================================
-                // --- THE FIX: 觸發語法高亮 ---
-                // 讓 highlight.js 找出文章內所有的 <code> 區塊並上色
-                document.querySelectorAll('#post-content pre code').forEach((block) => {
-                    hljs.highlightElement(block);
-                });
-                // ==========================================
-                
-                // --- 程式碼區塊：標題列 + 複製 + 摺疊功能 ---
-                const codeBlocks = document.querySelectorAll('#post-content pre');
-                
-                codeBlocks.forEach((pre) => {
-                    // 1. 取得程式語言名稱 (highlight.js 會把語言寫在 code 的 class 裡)
-                    const codeElement = pre.querySelector('code');
-                    let langName = 'code';
-                    if (codeElement && codeElement.className) {
-                        const match = codeElement.className.match(/language-([a-z0-9\-]+)/);
-                        if (match) langName = match[1];
-                    }
 
-                    // 2. 建立外層容器與標題列
-                    const wrapper = document.createElement('div');
-                    wrapper.className = 'code-wrapper';
+                try {
+                    // ==========================================
+                    // --- THE FIX: 觸發語法高亮 ---
+                    // 讓 highlight.js 找出文章內所有的 <code> 區塊並上色
+                    document.querySelectorAll('#post-content pre code').forEach((block) => {
+                        hljs.highlightElement(block);
+                    });
+                    // ==========================================
                     
-                    const header = document.createElement('div');
-                    header.className = 'code-header';
+                    // --- 程式碼區塊：標題列 + 複製 + 摺疊功能 ---
+                    const codeBlocks = document.querySelectorAll('#post-content pre');
                     
-                    const langSpan = document.createElement('span');
-                    langSpan.className = 'code-lang';
-                    langSpan.innerText = langName;
+                    codeBlocks.forEach((pre) => {
+                        // 1. 取得程式語言名稱 (highlight.js 會把語言寫在 code 的 class 裡)
+                        const codeElement = pre.querySelector('code');
+                        if (!codeElement) return;
 
-                    const actionsDiv = document.createElement('div');
-                    actionsDiv.className = 'code-actions';
+                        let langName = 'code';
+                        if (codeElement.className) {
+                            const match = codeElement.className.match(/language-([a-z0-9\-]+)/);
+                            if (match) langName = match[1];
+                        }
 
-                    // --- THE FIX: 聰明的摺疊按鈕邏輯 ---
-                    const toggleBtn = document.createElement('button');
-                    const codeText = pre.querySelector('code').innerText;
-                    // 計算程式碼實際行數 (去掉頭尾空白避免誤判)
-                    const lineCount = codeText.trim().split('\n').length;
-
-                    // 只有當程式碼超過 3 行時，才加入摺疊按鈕並「預設摺疊」
-                    if (lineCount > 3) {
-                        wrapper.classList.add('is-collapsed'); // 預設加上摺疊狀態
-                        toggleBtn.innerText = '▶ Expand';
-                        actionsDiv.appendChild(toggleBtn);
+                        // 2. 建立外層容器與標題列
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'code-wrapper';
                         
-                        toggleBtn.addEventListener('click', () => {
-                            wrapper.classList.toggle('is-collapsed');
-                            if (wrapper.classList.contains('is-collapsed')) {
-                                toggleBtn.innerText = '▶ Expand';
-                            } else {
-                                toggleBtn.innerText = '▼ Collapse';
+                        const header = document.createElement('div');
+                        header.className = 'code-header';
+                        
+                        const langSpan = document.createElement('span');
+                        langSpan.className = 'code-lang';
+                        langSpan.innerText = langName;
+
+                        const actionsDiv = document.createElement('div');
+                        actionsDiv.className = 'code-actions';
+
+                        // --- THE FIX: 聰明的摺疊按鈕邏輯 ---
+                        const toggleBtn = document.createElement('button');
+                        const codeText = codeElement.innerText;
+                        // 計算程式碼實際行數 (去掉頭尾空白避免誤判)
+                        const lineCount = codeText.trim().split('\n').length;
+
+                        // 只有當程式碼超過 3 行時，才加入摺疊按鈕並「預設摺疊」
+                        if (lineCount > 3) {
+                            wrapper.classList.add('is-collapsed'); // 預設加上摺疊狀態
+                            toggleBtn.innerText = '▶ Expand';
+                            actionsDiv.appendChild(toggleBtn);
+                            
+                            toggleBtn.addEventListener('click', () => {
+                                wrapper.classList.toggle('is-collapsed');
+                                if (wrapper.classList.contains('is-collapsed')) {
+                                    toggleBtn.innerText = '▶ Expand';
+                                } else {
+                                    toggleBtn.innerText = '▼ Collapse';
+                                }
+                            });
+                        }
+                        
+                        // --- 建立複製按鈕 ---
+                        const copyBtn = document.createElement('button');
+                        copyBtn.innerText = 'Copy';
+                        actionsDiv.appendChild(copyBtn);
+
+                        // --- 將所有元素組裝起來 ---
+                        header.appendChild(langSpan);
+                        header.appendChild(actionsDiv);
+                        
+                        pre.parentNode.insertBefore(wrapper, pre);
+                        wrapper.appendChild(header);
+                        wrapper.appendChild(pre);
+
+                        // --- 複製事件邏輯 (保持原樣) ---
+                        copyBtn.addEventListener('click', async () => {
+                            try {
+                                await navigator.clipboard.writeText(codeText);
+                                copyBtn.innerText = 'Copied!';
+                                copyBtn.style.color = '#3fb950'; 
+                                copyBtn.style.borderColor = '#3fb950';
+                                setTimeout(() => {
+                                    copyBtn.innerText = 'Copy';
+                                    copyBtn.style.color = '';
+                                    copyBtn.style.borderColor = '';
+                                }, 2000);
+                            } catch (err) {
+                                copyBtn.innerText = 'Error';
                             }
                         });
-                    }
-                    
-                    // --- 建立複製按鈕 ---
-                    const copyBtn = document.createElement('button');
-                    copyBtn.innerText = 'Copy';
-                    actionsDiv.appendChild(copyBtn);
-
-                    // --- 將所有元素組裝起來 ---
-                    header.appendChild(langSpan);
-                    header.appendChild(actionsDiv);
-                    
-                    pre.parentNode.insertBefore(wrapper, pre);
-                    wrapper.appendChild(header);
-                    wrapper.appendChild(pre);
-
-                    // --- 複製事件邏輯 (保持原樣) ---
-                    copyBtn.addEventListener('click', async () => {
-                        try {
-                            await navigator.clipboard.writeText(codeText);
-                            copyBtn.innerText = 'Copied!';
-                            copyBtn.style.color = '#3fb950'; 
-                            copyBtn.style.borderColor = '#3fb950';
-                            setTimeout(() => {
-                                copyBtn.innerText = 'Copy';
-                                copyBtn.style.color = '';
-                                copyBtn.style.borderColor = '';
-                            }, 2000);
-                        } catch (err) {
-                            copyBtn.innerText = 'Error';
-                        }
                     });
-                });
-                // ------------------------------------------
-                
-                // ==========================================
-                // --- THE FIX: 標題摺疊 (Heading Collapse) 邏輯 ---
-                // ==========================================
-                // 選取文章內所有的 h2 到 h6
-                const headings = document.querySelectorAll('#post-content h2, #post-content h3, #post-content h4, #post-content h5, #post-content h6');
-                
-                headings.forEach(heading => {
-                    // 1. 在標題前面插入一個三角形圖示
-                    const toggleIcon = document.createElement('span');
-                    toggleIcon.className = 'heading-toggle-icon';
-                    toggleIcon.innerText = '▼';
-                    heading.prepend(toggleIcon);
+                    // ------------------------------------------
+                    
+                    // ==========================================
+                    // --- THE FIX: 標題摺疊 (Heading Collapse) 邏輯 ---
+                    // ==========================================
+                    // 選取文章內所有的 h2 到 h6
+                    const headings = document.querySelectorAll('#post-content h2, #post-content h3, #post-content h4, #post-content h5, #post-content h6');
+                    
+                    headings.forEach(heading => {
+                        // 1. 在標題前面插入一個三角形圖示
+                        const toggleIcon = document.createElement('span');
+                        toggleIcon.className = 'heading-toggle-icon';
+                        toggleIcon.innerText = '▼';
+                        heading.prepend(toggleIcon);
 
-                    // 2. 綁定點擊事件
-                    heading.addEventListener('click', () => {
-                        // 切換圖示的旋轉狀態
-                        const isCollapsed = toggleIcon.classList.toggle('is-collapsed');
-                        
-                        // 取得當前點擊的標題層級 (例如 "H2" -> 取數字 2)
-                        const currentLevel = parseInt(heading.tagName.substring(1));
-                        
-                        // 開始尋找這個標題之後的所有兄弟節點 (Next Sibling)
-                        let nextNode = heading.nextElementSibling;
-                        
-                        while (nextNode) {
-                            if (nextNode.tagName.match(/^H[1-6]$/)) {
-                                const nextNodeLevel = parseInt(nextNode.tagName.substring(1));
-                                if (nextNodeLevel <= currentLevel) {
-                                    break; 
+                        // 2. 綁定點擊事件
+                        heading.addEventListener('click', () => {
+                            // 切換圖示的旋轉狀態
+                            const isCollapsed = toggleIcon.classList.toggle('is-collapsed');
+                            
+                            // 取得當前點擊的標題層級 (例如 "H2" -> 取數字 2)
+                            const currentLevel = parseInt(heading.tagName.substring(1));
+                            
+                            // 開始尋找這個標題之後的所有兄弟節點 (Next Sibling)
+                            let nextNode = heading.nextElementSibling;
+                            
+                            while (nextNode) {
+                                if (nextNode.tagName.match(/^H[1-6]$/)) {
+                                    const nextNodeLevel = parseInt(nextNode.tagName.substring(1));
+                                    if (nextNodeLevel <= currentLevel) {
+                                        break; 
+                                    }
                                 }
+                                
+                                // ==========================================
+                                // --- THE FIX: 替換成乾淨的 Class 切換 ---
+                                // ==========================================
+                                if (isCollapsed) {
+                                    // 加上 class 觸發 CSS 摺疊與淡出動畫
+                                    nextNode.classList.add('is-hidden-by-heading');
+                                } else {
+                                    // 移除 class 觸發 CSS 展開與淡入動畫
+                                    nextNode.classList.remove('is-hidden-by-heading');
+                                }
+                                // ==========================================
+                                
+                                nextNode = nextNode.nextElementSibling;
                             }
-                            
-                            // ==========================================
-                            // --- THE FIX: 替換成乾淨的 Class 切換 ---
-                            // ==========================================
-                            if (isCollapsed) {
-                                // 加上 class 觸發 CSS 摺疊與淡出動畫
-                                nextNode.classList.add('is-hidden-by-heading');
-                            } else {
-                                // 移除 class 觸發 CSS 展開與淡入動畫
-                                nextNode.classList.remove('is-hidden-by-heading');
-                            }
-                            // ==========================================
-                            
-                            nextNode = nextNode.nextElementSibling;
-                        }
+                        });
                     });
-                });
-                // ==========================================
+                    // ==========================================
+                } catch (enhanceError) {
+                    console.warn('Post enhancement skipped:', enhanceError);
+                }
 
                 window.scrollTo(0, 0);
             } catch (error) {
                 console.error('Error loading markdown file:', error);
                 appContainer.innerHTML = `
                     <button class="back-btn" onclick="resetAndGoHome()">< cd ..</button>
-                    <div class="markdown-body"><h1>Error Loading File</h1></div>`;
+                    <div class="markdown-body">
+                        <h1>Error Loading File</h1>
+                        <p style="font-family: var(--font-code); color: #f85149;">${(error && error.message) ? error.message : 'Unknown error'}</p>
+                    </div>`;
             }
         }
 

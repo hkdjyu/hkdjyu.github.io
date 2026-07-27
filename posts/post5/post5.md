@@ -109,7 +109,6 @@
 
 
 
-
 ## 💻 完整 MakeCode TypeScript 代碼
 
 您可以將以下代碼直接複製並貼上到 MakeCode 的 JavaScript/TypeScript 編輯頁面中進行燒錄：
@@ -122,8 +121,8 @@
 function getStatusStr () {
     // if (sysMode == "P") mStr = "Preset " + presetId
     if (sysMode == "P") {
-        switch (presetId){
-            case 1: 
+        switch (presetId) {
+            case 1:
                 mStr = "White";
                 break;
             case 2:
@@ -494,7 +493,6 @@ let hasValid = false
 let durationMs = 0
 let anySuccess = false
 let count = 0
-let stepsToProcess = 0
 let encoderSteps = 0
 let ok2 = false
 let pressDuration = 0
@@ -513,7 +511,6 @@ let param = 0
 let phase = 0
 let labels: string[] = []
 let pc: number[] = []
-let description = ""
 let modes: string[] = []
 let rgbColor = 0
 let mb = 0
@@ -522,7 +519,6 @@ let mr = 0
 let mw = 0
 let gScale = 0
 let ph = 0
-let p2 = 0
 let success = false
 let nPhase = 0
 let pPhase = 0
@@ -537,7 +533,6 @@ let strip: neopixel.Strip = null
 let timerData: number[][] = []
 let globalBrightness = 0
 let manualColor: number[] = []
-let presetId = 0
 let sysMode = ""
 let PRESETS: number[][] = []
 let BRIGHTNESS_MAP: number[] = []
@@ -548,9 +543,14 @@ let MENU_SET_TIMER = 0
 let MENU_SET_MANUAL = 0
 let MENU_SET_PRESET = 0
 let MENU_MODE = 0
-let editVal: number[] = []
-let editStep = 0
 let mStr = ""
+let editStep = 0
+let editVal: number[] = []
+let presetId = 0
+let v = ""
+let p2 = 0
+let description = ""
+let stepsToProcess = 0
 // ==========================================
 // 系統宣告與硬體初始化
 // ==========================================
@@ -700,7 +700,8 @@ basic.forever(function () {
         stepsToProcess = encoderSteps
         encoderSteps = 0
         let dir = stepsToProcess > 0 ? "S" : "R"
-count = Math.abs(stepsToProcess)
+        count = Math.abs(stepsToProcess)
+        anySuccess = false
         for (let index = 0; index < count; index++) {
             if (processInputLogic(dir)) {
                 anySuccess = true

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的 HTML 範例庫</title>
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --background-color: #f3f4f6;
+            --card-background: #ffffff;
+            --text-color: #1f2937;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin-bottom: 10px;
+            color: #111827;
+        }
+        p {
+            color: #6b7280;
+            margin-bottom: 40px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        .btn-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: var(--card-background);
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+        }
+        .btn-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>✨ 我的 HTML 實作範例庫</h1>
+    <p>點擊下方按鈕即可瀏覽各個 HTML 測試網頁</p>
+
+    <div class="grid">
+        <a href="examples/01_demo.html" class="btn-card">01 demo</a>
+        <a href="examples/02_test.html" class="btn-card">02 test</a>
+        <a href="examples/03_korean_test.html" class="btn-card">03 korean test</a>
+    </div>
+
+</body>
+</html>

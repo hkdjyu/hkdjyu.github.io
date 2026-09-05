@@ -1,0 +1,70 @@
+name: Generate Index Page
+
+on:
+  push:
+    branches:
+      - main  # 如果您的預設分支是 master，請改為 master
+    paths:
+      - 'S3_HTML/examples/**'
+      - 'S3_HTML/template.html'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Generate index.html from template
+      run: |
+        node -e "
+        const fs = require('fs');
+        const path = require('path');
+
+        // 指向 S3_HTML 資料夾內的路徑
+        const baseDir = './S3_HTML';
+        const examplesDir = path.join(baseDir, 'examples');
+        const templatePath = path.join(baseDir, 'template.html');
+        const outputPath = path.join(baseDir, 'index.html');
+
+        if (!fs.existsSync(examplesDir)) {
+            console.log('Examples directory not found at ' + examplesDir);
+            process.exit(1);
+        }
+
+        // 讀取所有 html 檔案
+        const files = fs.readdirSync(examplesDir)
+            .filter(file => file.endsWith('.html'))
+            .sort();
+
+        // 產生按鈕 HTML (路徑使用相對路徑 examples/xxx.html)
+        const buttonsHtml = files.map(file => {
+            const displayName = file.replace('.html', '').replace(/_/g, ' ');
+            const filePath = 'examples/' + file;
+            return '        <a href=\"' + filePath + '\" class=\"btn-card\">' + displayName + '</a>';
+        }).join('\n');
+
+        // 讀取範本並替換
+        let template = fs.readFileSync(templatePath, 'utf8');
+        const finalHtml = template.replace('<!-- BUTTONS_PLACEHOLDER -->', buttonsHtml);
+
+        fs.writeFileSync(outputPath, finalHtml);
+        console.log('Successfully generated index.html inside S3_HTML folder with ' + files.length + ' links.');
+        "
+
+    - name: Commit and Push changes
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add S3_HTML/index.html
+        git diff-index --quiet HEAD || git commit -m "chore: auto-generate index.html in S3_HTML"
+        git push

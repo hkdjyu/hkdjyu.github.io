@@ -75,6 +75,37 @@
             z-index: 10;
         }
 
+        .panel-restore {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #0f172a;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            z-index: 30;
+            transition: all 0.2s ease;
+        }
+
+        .panel-restore:hover {
+            background: rgba(59, 130, 246, 0.12);
+            border-color: rgba(59, 130, 246, 0.8);
+            transform: translateY(-50%) scale(1.04);
+        }
+
+        .panel-restore.visible {
+            display: flex;
+        }
+
         .panel-resizer::before {
             content: "";
             position: absolute;
@@ -170,6 +201,7 @@
         </section>
 
         <div id="panelResizer" class="panel-resizer" aria-label="調整左右視窗大小" title="拖曳調整大小"></div>
+        <button id="panelRestoreBtn" class="panel-restore" type="button" aria-label="恢復左右視窗" title="恢復左右視窗">◀</button>
 
         <!-- 右欄：即時網頁畫面 -->
         <section id="rightPanel" class="h-full flex flex-col bg-slate-100 dark:bg-slate-950 transition-colors duration-200">
@@ -230,6 +262,7 @@
             const leftPanel = document.getElementById('leftPanel');
             const rightPanel = document.getElementById('rightPanel');
             const resizer = document.getElementById('panelResizer');
+            const restoreBtn = document.getElementById('panelRestoreBtn');
             const safePercent = Math.min(100, Math.max(0, percent));
 
             document.documentElement.style.setProperty('--panel-split', `${safePercent}%`);
@@ -241,6 +274,10 @@
                 rightPanel.style.width = '100%';
                 rightPanel.style.flexBasis = '100%';
                 rightPanel.classList.remove('hidden-panel');
+                resizer.classList.add('hidden-panel');
+                restoreBtn.textContent = '◀';
+                restoreBtn.style.left = '10px';
+                restoreBtn.classList.add('visible');
             } else if (safePercent >= 97) {
                 rightPanel.classList.add('hidden-panel');
                 rightPanel.style.width = '0px';
@@ -248,6 +285,11 @@
                 leftPanel.style.width = '100%';
                 leftPanel.style.flexBasis = '100%';
                 leftPanel.classList.remove('hidden-panel');
+                resizer.classList.add('hidden-panel');
+                restoreBtn.textContent = '▶';
+                restoreBtn.style.left = 'auto';
+                restoreBtn.style.right = '10px';
+                restoreBtn.classList.add('visible');
             } else {
                 leftPanel.classList.remove('hidden-panel');
                 rightPanel.classList.remove('hidden-panel');
@@ -255,6 +297,8 @@
                 leftPanel.style.flexBasis = `${safePercent}%`;
                 rightPanel.style.width = `${100 - safePercent}%`;
                 rightPanel.style.flexBasis = `${100 - safePercent}%`;
+                resizer.classList.remove('hidden-panel');
+                restoreBtn.classList.remove('visible');
             }
 
             resizer.classList.toggle('dragging', isDragging);
@@ -293,26 +337,54 @@
             });
 
             const resizer = document.getElementById('panelResizer');
-            resizer.addEventListener('mousedown', function(event) {
+            const restoreBtn = document.getElementById('panelRestoreBtn');
+            restoreBtn.addEventListener('click', function() {
+                applyPanelSplit(50);
+            });
+
+            resizer.addEventListener('pointerdown', function(event) {
                 event.preventDefault();
                 isDragging = true;
                 resizer.classList.add('dragging');
+                resizer.setPointerCapture(event.pointerId);
                 document.body.style.userSelect = 'none';
                 document.body.style.cursor = 'col-resize';
                 updateSplitFromPointer(event);
             });
 
-            document.addEventListener('mousemove', function(event) {
+            resizer.addEventListener('pointermove', function(event) {
                 if (!isDragging) return;
                 updateSplitFromPointer(event);
             });
 
-            document.addEventListener('mouseup', function() {
+            resizer.addEventListener('pointerup', function(event) {
+                if (!isDragging) return;
+                isDragging = false;
+                resizer.classList.remove('dragging');
+                resizer.releasePointerCapture(event.pointerId);
+                document.body.style.userSelect = '';
+                document.body.style.cursor = '';
+            });
+
+            resizer.addEventListener('pointerleave', function() {
+                if (!isDragging) return;
+                resizer.classList.add('dragging');
+            });
+
+            window.addEventListener('pointermove', function(event) {
+                if (!isDragging) return;
+                updateSplitFromPointer(event);
+            });
+
+            window.addEventListener('pointerup', function(event) {
                 if (!isDragging) return;
                 isDragging = false;
                 resizer.classList.remove('dragging');
                 document.body.style.userSelect = '';
                 document.body.style.cursor = '';
+                if (event.pointerId !== undefined && resizer.hasPointerCapture(event.pointerId)) {
+                    resizer.releasePointerCapture(event.pointerId);
+                }
             });
 
             applyPanelSplit(50);

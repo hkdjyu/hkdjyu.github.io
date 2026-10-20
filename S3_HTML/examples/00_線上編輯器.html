@@ -172,6 +172,10 @@
                     <option value="16_hyperlink.html">16_hyperlink.html</option>
                     <option value="17_city.html">17_city.html</option>
                 </select>
+                <button type="button" onclick="openLocalExamplePicker()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 text-xs px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 font-medium transition">
+                    <i class="fa-solid fa-folder-open mr-1"></i>從本機載入
+                </button>
+                <input id="localExampleInput" type="file" accept=".html,text/html" class="hidden" onchange="onLoadLocalExample(this.files[0])">
             </div>
 
             <!-- 切換深/淺色模式按鈕 -->
@@ -259,6 +263,7 @@
         let editor;
         let isDarkMode = false;
         let isDragging = false;
+        let pendingExampleName = '';
 
         function applyPanelSplit(percent) {
             const leftPanel = document.getElementById('leftPanel');
@@ -399,6 +404,13 @@
         async function onSelectExample(fileName) {
             if (!fileName) return;
 
+            if (window.location.protocol === 'file:') {
+                pendingExampleName = fileName;
+                document.getElementById('exampleSelect').value = '';
+                document.getElementById('localExampleInput').click();
+                return;
+            }
+
             try {
                 const safeFileName = encodeURI(fileName);
                 const response = await fetch(safeFileName);
@@ -410,7 +422,40 @@
                 showToast(`已成功載入範例「${fileName}」`);
             } catch (err) {
                 console.error(err);
-                showToast(`無法載入 ${fileName}。如果是本機瀏覽 (file://)，請上傳至 GitHub Pages 開啟。`, true);
+                showToast(`無法載入 ${fileName}。如果是本機瀏覽，請使用「從本機載入」選擇範例檔。`, true);
+            }
+        }
+
+        function openLocalExamplePicker() {
+            pendingExampleName = '';
+            document.getElementById('localExampleInput').click();
+        }
+
+        async function onLoadLocalExample(file) {
+            const fileInput = document.getElementById('localExampleInput');
+            const expectedFileName = pendingExampleName;
+            pendingExampleName = '';
+
+            if (!file) return;
+            if (expectedFileName && file.name !== expectedFileName) {
+                showToast(`請選擇「${expectedFileName}」以載入所選範例。`, true);
+                fileInput.value = '';
+                return;
+            }
+
+            try {
+                const code = await file.text();
+                editor.setValue(code);
+
+                const exampleSelect = document.getElementById('exampleSelect');
+                exampleSelect.value = Array.from(exampleSelect.options)
+                    .some(option => option.value === file.name) ? file.name : '';
+                showToast(`已成功載入本機範例「${file.name}」`);
+            } catch (err) {
+                console.error(err);
+                showToast(`無法讀取本機檔案「${file.name}」。`, true);
+            } finally {
+                fileInput.value = '';
             }
         }
 

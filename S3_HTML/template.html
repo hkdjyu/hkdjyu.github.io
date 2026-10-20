@@ -36,6 +36,29 @@
             width: 100%;
             max-width: 1000px;
         }
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: var(--primary-color);
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--background-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+        }
+        .btn:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary-color);
+            color: #f5df1c;
+            font-size: 1.4rem;
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2);
+        }
         .btn-card {
             display: flex;
             align-items: center;
@@ -64,6 +87,10 @@
 
     <h1>✨ HTML 實作範例庫</h1>
     <p>點擊下方按鈕即可瀏覽各個 HTML 測試網頁</p>
+    
+    <a class="btn" href="./examples/00_線上編輯器.html"
+        開始研究 <strong>HTML</strong>
+    </a>
 
     <div class="grid">
         <!-- BUTTONS_PLACEHOLDER -->
